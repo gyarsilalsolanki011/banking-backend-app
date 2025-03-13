@@ -5,18 +5,22 @@ import com.gyarsilalsolanki011.banking.entity.Account;
 
 public class AccountMapper {
     public static Account mapToAccount(AccountDto accountDto){
-        return new Account(
-                accountDto.getId(),
-                accountDto.getAccountHolderName(),
-                accountDto.getBalance()
-        );
+       return new Account(
+               accountDto.getUser(),
+               accountDto.getAccountNumber(),
+               accountDto.getAccountType(),
+               accountDto.getBalance()
+       );
     }
 
     public static AccountDto mapToAccountDto(Account account){
        return new AccountDto(
-                account.getId(),
-                account.getAccountHolderName(),
-                account.getBalance()
-        );
+               account.getId(),
+               account.getUser(),
+               account.getAccountNumber(),
+               account.getAccountType(),
+               account.getBalance(),
+               account.getCreatedAt()
+       );
     }
 }

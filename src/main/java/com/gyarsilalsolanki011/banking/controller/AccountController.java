@@ -2,6 +2,7 @@ package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +12,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
-    private final AccountService accountService;
-
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
+    @Autowired
+    private AccountService accountService;
 
     //add Account REST API
     @PostMapping
