@@ -14,10 +14,8 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 public class AccountDto {
-    private Long id;
     private User user;
     private String accountNumber;
     private AccountType accountType;
     private Double balance;
-    private Date createdAt;
 }

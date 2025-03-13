@@ -1,7 +1,7 @@
 package com.gyarsilalsolanki011.banking.enums;
 
 public enum AccountType {
-    SAVING,
+    SAVINGS,
     CURRENT,
-    FIX_DEPOSIT
+    FIXED_DEPOSIT
 }

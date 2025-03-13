@@ -25,9 +25,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDto> getUserById(Long id) {
-       return userRepository.findById(id)
-               .map(UserMapper::mapToUserDto);
+    public Optional<User> getUserById(Long id) {
+       return userRepository.findById(id);
     }
 
     @Override

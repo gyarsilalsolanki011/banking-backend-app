@@ -15,12 +15,10 @@ public class AccountMapper {
 
     public static AccountDto mapToAccountDto(Account account){
        return new AccountDto(
-               account.getId(),
                account.getUser(),
                account.getAccountNumber(),
                account.getAccountType(),
-               account.getBalance(),
-               account.getCreatedAt()
+               account.getBalance()
        );
     }
 }

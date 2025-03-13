@@ -1,13 +1,15 @@
 package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
+import com.gyarsilalsolanki011.banking.entity.User;
+import com.gyarsilalsolanki011.banking.enums.AccountType;
 import com.gyarsilalsolanki011.banking.service.AccountService;
+import com.gyarsilalsolanki011.banking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -15,41 +17,49 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    //add Account REST API
-    @PostMapping
-    public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto){
-        return new ResponseEntity<>(accountService.createAccount(accountDto), HttpStatus.CREATED);
+    @Autowired
+    private UserService userService;
+
+    // Create Account API
+    @PostMapping("/create")
+    public ResponseEntity<?> createAccount(@RequestParam Long userId,
+                                           @RequestParam String accountType,
+                                           @RequestParam double balance){
+        Optional<User> userOptional = userService.getUserById(userId);
+        if (userOptional.isEmpty()){
+            return ResponseEntity.badRequest().body("User Not Found!");
+        }
+
+        User user = userOptional.get();
+        AccountType type;
+        try {
+            type = AccountType.valueOf(accountType.toUpperCase());
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+        }
+
+        AccountDto newAccount = accountService.createAccount(user, type, balance);
+        return ResponseEntity.ok(newAccount);
     }
 
-    //get Account REST API
-    @GetMapping("/{id}")
-    public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id){
-        AccountDto accountDto = accountService.getAccountById(id);
-        return new ResponseEntity<>(accountDto, HttpStatus.OK);
+    // Deposit API
+    @PostMapping("/{accountId}/deposit")
+    public ResponseEntity<AccountDto> deposit(@PathVariable Long accountId,
+                                              @RequestParam double amount) {
+        AccountDto updatedAccount = accountService.deposit(accountId, amount);
+        return ResponseEntity.ok(updatedAccount);
     }
 
-    // Deposit REST API
-    @PostMapping("/{id}/deposit")
-    public ResponseEntity<AccountDto> deposit(@PathVariable Long id,
-                                              @RequestBody Map<String, Double> request){
-        Double amount = request.get("amount");
-        AccountDto accountDto = accountService.deposit(id, amount);
-        return new ResponseEntity<>(accountDto, HttpStatus.OK);
+    // Withdraw API
+    @PostMapping("/{accountId}/withdraw")
+    public ResponseEntity<?> withdraw(@PathVariable Long accountId,
+                                      @RequestParam double amount) {
+        try {
+            AccountDto updatedAccount = accountService.withdraw(accountId, amount);
+            return ResponseEntity.ok(updatedAccount);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
-    // Withdraw REST API
-    @PostMapping("/{id}/withdraw")
-    public ResponseEntity<AccountDto> withdraw(@PathVariable Long id,
-                                               @RequestBody Map<String, Double> request){
-        Double amount = request.get("amount");
-        AccountDto accountDto = accountService.withdraw(id, amount);
-        return new ResponseEntity<>(accountDto, HttpStatus.OK);
-    }
-
-    //Delete account REST API
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
-        accountService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

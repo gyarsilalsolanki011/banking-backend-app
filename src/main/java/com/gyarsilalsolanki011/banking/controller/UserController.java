@@ -1,6 +1,8 @@
 package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.UserDto;
+import com.gyarsilalsolanki011.banking.entity.User;
+import com.gyarsilalsolanki011.banking.mapper.UserMapper;
 import com.gyarsilalsolanki011.banking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id){
-        Optional<UserDto> user = userService.getUserById(id);
+        Optional<UserDto> user = userService.getUserById(id)
+                .map(UserMapper::mapToUserDto);
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().body(null));
     }
