@@ -7,12 +7,10 @@ public class UserMapper {
     // Convert User Entity to UserDto
     public static UserDto mapToUserDto(User user) {
         return new UserDto(
-                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getAddress(),
-                user.getCreatedAt()
+                user.getAddress()
         );
     }
 

@@ -1,10 +1,8 @@
 package com.gyarsilalsolanki011.banking.controller;
 
-import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.service.AccountService;
+import com.gyarsilalsolanki011.banking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +14,11 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
-    private AccountService accountService;
+    private UserService userService;
 
     @GetMapping("/all-users")
     public  ResponseEntity<List<UserDto>> getAllUsers(){
-        return null;
+        List<UserDto> allUsers = userService.getAllUsers();
+        return ResponseEntity.ok(allUsers);
     }
 }

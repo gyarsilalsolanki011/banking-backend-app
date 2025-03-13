@@ -1,15 +1,12 @@
 package com.gyarsilalsolanki011.banking.entity;
 
 import com.gyarsilalsolanki011.banking.enums.AccountType;
-import com.gyarsilalsolanki011.banking.service.UserService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -36,7 +33,7 @@ public class Account {
     @Column(name = "account_type", nullable = false)
     private AccountType accountType;
 
-    @Column(name = "balance", nullable = false, precision = 15, scale = 2)
+    @Column(name = "balance", nullable = false)
     private double balance;
 
     @Temporal(TemporalType.TIMESTAMP)
