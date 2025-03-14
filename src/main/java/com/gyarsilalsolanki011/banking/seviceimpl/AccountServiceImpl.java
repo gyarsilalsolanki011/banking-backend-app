@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -78,7 +79,26 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void delete(Long id) {
+        Optional<Account> optionalAccount = accountRepository.findById(id);
+        if (optionalAccount.isEmpty()){
+            throw new IllegalArgumentException("Account Not found");
+        }
 
+        Account account = optionalAccount.get();
+        accountRepository.delete(account);
+    }
+
+    @Override
+    public List<AccountDto> getAllAccountsByUserId(Long id) {
+        List<Account> allAccounts = accountRepository.findByUserId(id);
+        List<AccountDto> accounts = new ArrayList<>();
+
+        if (allAccounts.isEmpty()){
+            for (Account account : allAccounts){
+                accounts.add(AccountMapper.mapToAccountDto(account));
+            }
+        }
+        return accounts;
     }
 
     private String generateAccountNumber() {

@@ -62,4 +62,15 @@ public class AccountController {
         }
     }
 
+    // Delete API
+    @DeleteMapping("/{accountId}/delete")
+    public  ResponseEntity<?> delete(@PathVariable Long accountId){
+        try {
+            accountService.delete(accountId);
+            return ResponseEntity.ok("Account deleted successfully");
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

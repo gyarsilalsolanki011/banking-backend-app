@@ -32,4 +32,14 @@ public class UserController {
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().body(null));
     }
+
+    @DeleteMapping("/{userId}/delete")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId){
+        try {
+            userService.deleteUser(userId);
+            return ResponseEntity.ok("User Deleted successfully");
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
