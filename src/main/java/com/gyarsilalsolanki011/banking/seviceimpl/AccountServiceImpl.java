@@ -89,22 +89,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDto> getAllAccountsByUserId(Long id) {
-        List<Account> allAccounts = accountRepository.findByUserId(id);
-        List<AccountDto> accounts = new ArrayList<>();
-
-        if (allAccounts.isEmpty()){
-            for (Account account : allAccounts){
-                accounts.add(AccountMapper.mapToAccountDto(account));
-            }
-        }
-        return accounts;
+    public List<AccountDto> getAllAccountsByUserId(Long userId) {
+        return accountRepository.findByUserId(userId)
+                .stream()
+                .map(AccountMapper::mapToAccountDto)
+                .collect(Collectors.toList());
     }
 
     private String generateAccountNumber() {
         Random random = new Random();
         StringBuilder accountNumber = new StringBuilder();
-        for(int i=0; i<12; i++){
+        accountNumber.append("9525000"); //fist 4 digit of account
+        for(int i=0; i<5; i++){
             accountNumber.append(random.nextInt(10));
         }
         return accountNumber.toString();
