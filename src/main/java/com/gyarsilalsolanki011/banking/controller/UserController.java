@@ -2,17 +2,13 @@ package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.entity.Account;
-import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.mapper.UserMapper;
-import com.gyarsilalsolanki011.banking.service.AccountService;
-import com.gyarsilalsolanki011.banking.service.UserService;
+import com.gyarsilalsolanki011.banking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -32,12 +28,14 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id){
-        Optional<UserDto> user = userService.getUserById(id)
-                .map(UserMapper::mapToUserDto);
-        return user.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().body(null));
+    @GetMapping("/{userId}")
+    public ResponseEntity<?> getUserById(@PathVariable Long userId){
+        try {
+            UserDto user = UserMapper.mapToUserDto(userService.getUserById(userId));
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{userId}/delete")
@@ -50,7 +48,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{userId}/all")
+    @GetMapping("/{userId}/all-accounts")
     public ResponseEntity<?> getAllAccountsByUserId(@PathVariable Long userId){
         try {
             List<AccountDto> accounts = accountService.getAllAccountsByUserId(userId);

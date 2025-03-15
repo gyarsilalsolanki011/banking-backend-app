@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -25,12 +23,13 @@ public class AccountController {
     public ResponseEntity<?> createAccount(@RequestParam Long userId,
                                            @RequestParam String accountType,
                                            @RequestParam double balance){
-        Optional<User> userOptional = userService.getUserById(userId);
-        if (userOptional.isEmpty()){
-            return ResponseEntity.badRequest().body("User Not Found!");
+        User user;
+        try {
+            user = userService.getUserById(userId);
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        User user = userOptional.get();
         AccountType type;
         try {
             type = AccountType.valueOf(accountType.toUpperCase());
