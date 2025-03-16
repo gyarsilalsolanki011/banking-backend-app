@@ -41,22 +41,12 @@ public class AccountController {
         return ResponseEntity.ok(newAccount);
     }
 
-    // Deposit API
-    @PostMapping("/{accountId}/deposit")
-    public ResponseEntity<AccountDto> deposit(@PathVariable Long accountId,
-                                              @RequestParam double amount) {
-        AccountDto updatedAccount = accountService.deposit(accountId, amount);
-        return ResponseEntity.ok(updatedAccount);
-    }
-
-    // Withdraw API
-    @PostMapping("/{accountId}/withdraw")
-    public ResponseEntity<?> withdraw(@PathVariable Long accountId,
-                                      @RequestParam double amount) {
+    @GetMapping("/{accountId}")
+    public ResponseEntity<?> getAccountById(@PathVariable Long accountId){
         try {
-            AccountDto updatedAccount = accountService.withdraw(accountId, amount);
-            return ResponseEntity.ok(updatedAccount);
-        } catch (IllegalArgumentException e) {
+            AccountDto account = accountService.getAccountById(accountId);
+            return ResponseEntity.ok(account);
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

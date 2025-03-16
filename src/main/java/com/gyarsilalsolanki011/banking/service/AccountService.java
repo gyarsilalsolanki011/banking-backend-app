@@ -9,12 +9,8 @@ import java.util.Optional;
 
 public interface AccountService {
     AccountDto createAccount(User user, AccountType accountType, Double balance);
-    Optional<AccountDto> getAccountById(Long id);
+    AccountDto getAccountById(Long id);
     List<AccountDto> getAllAccounts();
-
-    AccountDto deposit(Long id, double amount);
-    AccountDto withdraw(Long id, double amount);
-
     void delete(Long id);
 
     // Using userId

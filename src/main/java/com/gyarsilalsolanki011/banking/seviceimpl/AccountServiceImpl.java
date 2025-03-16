@@ -34,9 +34,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Optional<AccountDto> getAccountById(Long id) {
-        return accountRepository.findById(id)
-                .map(AccountMapper::mapToAccountDto);
+    public AccountDto getAccountById(Long id) {
+         Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account Not found"));
+         return AccountMapper.mapToAccountDto(account);
     }
 
     @Override
@@ -45,39 +46,6 @@ public class AccountServiceImpl implements AccountService {
                 .stream()
                 .map(AccountMapper::mapToAccountDto)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional
-    public AccountDto deposit(Long accountId, double amount) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if (optionalAccount.isEmpty()){
-            throw new IllegalArgumentException("Account not found");
-        }
-
-        Account account = optionalAccount.get();
-        account.setBalance(account.getBalance() + amount); //update balance
-        Account updateAccount = accountRepository.save(account);
-        return AccountMapper.mapToAccountDto(updateAccount);
-    }
-
-    @Override
-    public AccountDto withdraw(Long accountId, double amount) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if (optionalAccount.isEmpty()){
-            throw new IllegalArgumentException("Account Not found");
-        }
-
-        Account account = optionalAccount.get();
-
-        // Prevent overdraft
-        if (account.getBalance() < amount) {
-            throw new IllegalArgumentException("Insufficient balance");
-        }
-
-        account.setBalance(account.getBalance() - amount); //Deduct balance
-        Account updateAccount = accountRepository.save(account);
-        return AccountMapper.mapToAccountDto(updateAccount);
     }
 
     @Override
