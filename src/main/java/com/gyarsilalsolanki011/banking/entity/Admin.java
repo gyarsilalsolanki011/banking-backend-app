@@ -2,7 +2,10 @@ package com.gyarsilalsolanki011.banking.entity;
 
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
