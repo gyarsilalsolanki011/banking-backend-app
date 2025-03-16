@@ -6,14 +6,18 @@ import com.gyarsilalsolanki011.banking.mapper.AdminMapper;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class AdminServiceImpl implements AdminService {
-    /*@Autowired
-    private AdminRepository adminRepository;
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private AdminRepository adminRepository;
+    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public AdminDto createAdmin(AdminDto adminDto, String password) {
@@ -48,5 +52,5 @@ public class AdminServiceImpl implements AdminService {
             throw new RuntimeException("Admin not found");
         }
         adminRepository.deleteById(adminId);
-    }*/
+    }
 }

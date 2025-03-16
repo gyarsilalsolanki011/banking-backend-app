@@ -52,7 +52,7 @@ public class AccountController {
     }
 
     // Delete API
-    @DeleteMapping("/{accountId}/delete")
+    @DeleteMapping("/delete/{accountId}")
     public  ResponseEntity<?> delete(@PathVariable Long accountId){
         try {
             accountService.delete(accountId);

@@ -38,7 +38,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{userId}/delete")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable Long userId){
         try {
             userService.deleteUser(userId);
@@ -48,7 +48,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{userId}/all-accounts")
+    @GetMapping("/all-accounts/{userId}")
     public ResponseEntity<?> getAllAccountsByUserId(@PathVariable Long userId){
         try {
             List<AccountDto> accounts = accountService.getAllAccountsByUserId(userId);
