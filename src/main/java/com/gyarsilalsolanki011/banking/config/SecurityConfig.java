@@ -20,7 +20,10 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/**").hasRole("SUPER_ADMIN")
+                        .requestMatchers("/api/accounts/**","/api/users/**","/api/transactions/**").hasRole("MANAGER")
+                        .requestMatchers("/api/transactions/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

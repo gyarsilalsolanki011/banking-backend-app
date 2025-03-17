@@ -1,4 +1,4 @@
-package com.gyarsilalsolanki011.banking.repository;
+package com.gyarsilalsolanki011.banking.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,6 +1,6 @@
 package com.gyarsilalsolanki011.banking.filter;
 
-import com.gyarsilalsolanki011.banking.repository.UserDetailService;
+import com.gyarsilalsolanki011.banking.service.UserDetailService;
 import com.gyarsilalsolanki011.banking.utills.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
