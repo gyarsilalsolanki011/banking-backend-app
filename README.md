@@ -119,12 +119,10 @@ mvn spring-boot:run
 | `/api/admins/delete/{id}` | `GET` | delete admin by Id |
 | `/api/admins/approve/{id}` | `GET` | approve big withdrawals |
 
----
-
 ## Role-Based Access Control
-1.ADMIN: Full access to all functionalities.
-2.MANAGER: Can view and manage users and transactions.
-3.SUPER_ADMIN: Highest privileges with full control over the system.
+- ADMIN: Full access to all functionalities.
+- MANAGER: Can view and manage users and transactions.
+- SUPER_ADMIN: Highest privileges with full control over the system.
 
 ---
 
@@ -135,12 +133,10 @@ Contributions are welcome! Follow these steps:
 3. Commit your changes
 4. Push to the branch and open a Pull Request
 
----
 
 ## 📜 License
 This project is **open-source** under the MIT License.
 
----
 
 ## 📞 Contact
 For any queries, feel free to reach out:
