@@ -57,6 +57,16 @@ public class AdminController {
         }
     }
 
+    @PostMapping("/approve/{transactionId}")
+    public ResponseEntity<?> approveWithdrawal(@PathVariable Long transactionId){
+        try {
+            adminService.approveWithdrawal(transactionId);
+            return ResponseEntity.ok("Approved Successfully");
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/all-admins")
     public ResponseEntity<List<AdminDto>> getAllAdmins() {
         List<AdminDto> allAdmins = adminService.getAllAdmins();

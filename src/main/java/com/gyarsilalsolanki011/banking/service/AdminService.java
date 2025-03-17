@@ -10,4 +10,5 @@ public interface AdminService {
     AdminDto getAdminById(Long adminId);
     List<AdminDto> getAllAdmins();
     void deleteAdmin(Long adminId);
+    void approveWithdrawal(Long transactionId);
 }

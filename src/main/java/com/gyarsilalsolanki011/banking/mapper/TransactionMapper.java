@@ -10,7 +10,8 @@ public class TransactionMapper {
                 transaction.getAccount().getAccountNumber(),
                 transaction.getTransactionType(),
                 transaction.getAmount(),
-                transaction.getDate()
+                transaction.getDate(),
+                transaction.getStatus()
         );
     }
 }

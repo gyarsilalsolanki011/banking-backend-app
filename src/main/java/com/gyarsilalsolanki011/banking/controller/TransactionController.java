@@ -34,6 +34,16 @@ public class TransactionController {
         }
     }
 
+    @PostMapping("/{fromAccountId}/transfer/{toAccountId}")
+    public ResponseEntity<?> transfer(@PathVariable Long fromAccountId, @PathVariable Long toAccountId, double amount){
+        try {
+            TransactionDto transaction = transactionService.transfer(fromAccountId, toAccountId, amount);
+            return ResponseEntity.ok(transaction);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @GetMapping("/account/{accountId}")
     public List<TransactionDto> getTransactions(@PathVariable Long accountId) {
         return transactionService.getTransactionsByAccountId(accountId);

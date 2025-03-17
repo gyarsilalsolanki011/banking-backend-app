@@ -1,5 +1,6 @@
 package com.gyarsilalsolanki011.banking.entity;
 
+import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
 import com.gyarsilalsolanki011.banking.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.util.Date;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
+    @Column(name = "transaction_id", unique = true)
     private Long id;
 
     @ManyToOne
@@ -31,10 +32,15 @@ public class Transaction {
     @Column(name = "date")
     private Date date = new Date();
 
-    public Transaction(Account account, TransactionType transactionType, Double amount) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private TransactionStatus status;
+
+    public Transaction(Account account, Double amount, TransactionType transactionType, TransactionStatus status) {
         this.account = account;
         this.transactionType = transactionType;
         this.amount = amount;
+        this.status = status;
     }
 
     public Long getId() {
@@ -55,5 +61,9 @@ public class Transaction {
 
     public Date getDate() {
         return date;
+    }
+
+    public TransactionStatus getStatus() {
+        return status;
     }
 }

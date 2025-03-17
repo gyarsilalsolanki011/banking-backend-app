@@ -3,6 +3,7 @@ package com.gyarsilalsolanki011.banking.seviceimpl;
 import com.gyarsilalsolanki011.banking.dto.TransactionDto;
 import com.gyarsilalsolanki011.banking.entity.Account;
 import com.gyarsilalsolanki011.banking.entity.Transaction;
+import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
 import com.gyarsilalsolanki011.banking.enums.TransactionType;
 import com.gyarsilalsolanki011.banking.mapper.TransactionMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
@@ -23,6 +24,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private AccountRepository accountRepository;
 
+    private static final double WITHDRAWAL_APPROVAL_LIMIT = 5000;
+
     @Override
     @Transactional
     public TransactionDto deposit(Long accountId, double amount) {
@@ -31,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
         account.setBalance(account.getBalance() + amount);
         accountRepository.save(account);
 
-        Transaction transaction = new Transaction(account, TransactionType.DEPOSIT, amount);
+        Transaction transaction = new Transaction(account, amount, TransactionType.DEPOSIT, TransactionStatus.COMPLETED);
         transactionRepository.save(transaction);
 
         return TransactionMapper.mapToTransactionDto(transaction);
@@ -47,11 +50,41 @@ public class TransactionServiceImpl implements TransactionService {
             throw new RuntimeException("Insufficient balance");
         }
 
-        account.setBalance(account.getBalance() - amount);
-        accountRepository.save(account);
+        TransactionStatus status = (account.getBalance() > WITHDRAWAL_APPROVAL_LIMIT) ? TransactionStatus.PENDING : TransactionStatus.COMPLETED;
 
-        Transaction transaction = new Transaction(account, TransactionType.WITHDRAWAL, amount);
+        Transaction transaction = new Transaction(account, amount, TransactionType.WITHDRAWAL, status);
         transactionRepository.save(transaction);
+
+        if (status == TransactionStatus.COMPLETED){
+            account.setBalance(account.getBalance() - amount);
+            accountRepository.save(account);
+        }
+        return TransactionMapper.mapToTransactionDto(transaction);
+    }
+
+    @Transactional
+    @Override
+    public TransactionDto transfer(Long fromAccountId, Long toAccountId, double amount) {
+        Account fromAccount = accountRepository.findById(fromAccountId)
+                .orElseThrow(() -> new RuntimeException("Sender account not found"));
+
+        Account toAccount = accountRepository.findById(toAccountId)
+                .orElseThrow(() -> new RuntimeException("Receiver account not found"));
+
+
+        if (fromAccount.getBalance() < 0) {
+            throw new RuntimeException("Insufficient balance");
+        }
+
+        fromAccount.setBalance(fromAccount.getBalance() - amount);
+        toAccount.setBalance(toAccount.getBalance() + amount);
+
+        accountRepository.save(fromAccount);
+        accountRepository.save(toAccount);
+
+        Transaction transaction = new Transaction(fromAccount, amount, TransactionType.TRANSFER, TransactionStatus.COMPLETED);
+        transactionRepository.save(transaction);
+
         return TransactionMapper.mapToTransactionDto(transaction);
     }
 
