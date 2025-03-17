@@ -3,12 +3,8 @@ package com.gyarsilalsolanki011.banking.entity;
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -37,5 +33,25 @@ public class Admin {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public AdminRole getRole() {
+        return role;
     }
 }

@@ -33,8 +33,7 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Invalid admin role! Choose: ADMIN, MANAGER, or SUPER_ADMIN.");
         }
 
-        AdminDto adminDto = new AdminDto(null, username, email, adminRole);
-        AdminDto newAdmin = adminService.createAdmin(adminDto, password);
+        AdminDto newAdmin = adminService.createAdmin(username, email, password, adminRole);
         return ResponseEntity.ok(newAdmin);
     }
 

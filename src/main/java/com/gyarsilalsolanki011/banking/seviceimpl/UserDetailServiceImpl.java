@@ -14,6 +14,7 @@ import java.util.Optional;
 public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
     private AdminRepository adminRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Admin> optionalAdmin = adminRepository.findByUsername(username);

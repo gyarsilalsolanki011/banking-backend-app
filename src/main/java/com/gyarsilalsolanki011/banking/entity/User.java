@@ -2,13 +2,11 @@ package com.gyarsilalsolanki011.banking.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
-@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,5 +41,29 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.address = address;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }

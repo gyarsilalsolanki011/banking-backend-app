@@ -6,8 +6,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-
-@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,5 +35,25 @@ public class Transaction {
         this.account = account;
         this.transactionType = transactionType;
         this.amount = amount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public Date getDate() {
+        return date;
     }
 }

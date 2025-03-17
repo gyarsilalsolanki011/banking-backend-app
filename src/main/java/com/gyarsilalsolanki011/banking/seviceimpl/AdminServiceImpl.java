@@ -2,6 +2,7 @@ package com.gyarsilalsolanki011.banking.seviceimpl;
 
 import com.gyarsilalsolanki011.banking.dto.AdminDto;
 import com.gyarsilalsolanki011.banking.entity.Admin;
+import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import com.gyarsilalsolanki011.banking.mapper.AdminMapper;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.service.AdminService;
@@ -20,12 +21,12 @@ public class AdminServiceImpl implements AdminService {
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public AdminDto createAdmin(AdminDto adminDto, String password) {
+    public AdminDto createAdmin(String username, String email, String password, AdminRole role) {
         Admin admin = new Admin(
-                adminDto.getUsername(),
-                adminDto.getEmail(),
+                username,
+                email,
                 passwordEncoder.encode(password),
-                adminDto.getRole()
+                role
         );
         adminRepository.save(admin);
         return AdminMapper.mapToAdminDto(admin);
