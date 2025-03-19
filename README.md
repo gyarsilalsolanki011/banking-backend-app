@@ -1,8 +1,6 @@
 # 🏦 Banking App (Spring Boot) REST API
 This is a banking application built using Spring Boot and MySQL that provides functionalities for user and account management, transactions, and admin role-based access control.
 
----
-
 ## 🚀 Features
 
 ### 🔹 User Management
@@ -33,7 +31,6 @@ This is a banking application built using Spring Boot and MySQL that provides fu
 - ✅ **Lombok & JPA (Hibernate)** for Database Management
 - ✅ **Role-Based Access Control (ADMIN, MANAGER, SUPER_ADMIN)**
 
----
 
 ## 🛠️ Tech Stack
 
@@ -43,7 +40,6 @@ This is a banking application built using Spring Boot and MySQL that provides fu
 - **API Documentation**: Swagger
 - **Build Tool**: Maven
 
----
 
 ## 📌 Installation & Setup
 
@@ -116,12 +112,14 @@ mvn spring-boot:run
 | `/api/admins/delete/{id}` | `GET` | delete admin by Id |
 | `/api/admins/approve/{id}` | `GET` | approve big withdrawals |
 
+### ***check out postman endpoints***: [Postman Collection](https://web.postman.co/workspace/My-Workspace~5b2bb1d9-e414-4bb4-84bc-e56548eeb511/collection/33712155-a43fad36-0aff-4b86-98a4-d9bab5480201?action=share&source=copy-link&creator=33712155&active-environment=2c67ea37-2bc1-4936-8c24-1e6df7a58416)
+- This collection includes all the endpoints which are there in the banking app.
+- Two endpoints are public and all the others are authenticated
+
 ## Role-Based Access Control
 - ADMIN: Full access to all functionalities.
 - MANAGER: Can view and manage users and transactions.
 - SUPER_ADMIN: Highest privileges with full control over the system.
-
----
 
 ## 🤝 Contributing
 Contributions are welcome! Follow these steps:
@@ -139,8 +137,6 @@ This project is **open-source** under the MIT License.
 For any queries, feel free to reach out:
 - 📧 Email: gyarsilalsolanki011@gmail.com
 - 🔗 LinkedIn: [Your Profile](https://linkedin.com/in/gyarsilalsolanki)
-
----
 
 🚀 **Happy Coding!**
 
