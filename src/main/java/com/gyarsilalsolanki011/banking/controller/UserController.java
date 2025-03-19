@@ -2,6 +2,7 @@ package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.UserDto;
+import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.mapper.UserMapper;
 import com.gyarsilalsolanki011.banking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,13 +49,36 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all-accounts/{userId}")
-    public ResponseEntity<?> getAllAccountsByUserId(@PathVariable Long userId){
+    @GetMapping("/all-accounts")
+    public ResponseEntity<?> getAllAccountsByUserId(@RequestParam Long userId){
         try {
             List<AccountDto> accounts = accountService.getAllAccountsByUserId(userId);
             return ResponseEntity.ok(accounts);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    // ✅ User Update Endpoint
+    @PutMapping("/update")
+    public String updateUser(@RequestParam Long userId,
+                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false) String email,
+                             @RequestParam(required = false) String phone,
+                             @RequestParam(required = false) String address) {
+        return userService.updateUser(userId, name, email, phone, address);
+    }
+
+
+    // Request Online Banking Activation
+    @PostMapping("/request-online-banking")
+    public String requestOnlineBanking(@RequestParam Long userId, @RequestParam String bankingPassword) {
+        return userService.requestOnlineBanking(userId, bankingPassword);
+    }
+
+    // Check Online Banking Status
+    @GetMapping("/online-banking-status")
+    public OnlineBankingStatus getOnlineBankingStatus(@RequestParam Long userId) {
+        return userService.getOnlineBankingStatus(userId);
     }
 }

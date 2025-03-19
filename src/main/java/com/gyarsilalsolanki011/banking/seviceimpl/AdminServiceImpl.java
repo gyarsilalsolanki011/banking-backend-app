@@ -4,13 +4,16 @@ import com.gyarsilalsolanki011.banking.dto.AdminDto;
 import com.gyarsilalsolanki011.banking.entity.Account;
 import com.gyarsilalsolanki011.banking.entity.Admin;
 import com.gyarsilalsolanki011.banking.entity.Transaction;
+import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
+import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
 import com.gyarsilalsolanki011.banking.enums.TransactionType;
 import com.gyarsilalsolanki011.banking.mapper.AdminMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.TransactionRepository;
+import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +32,8 @@ public class AdminServiceImpl implements AdminService {
     private TransactionRepository transactionRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private UserRepository userRepository;
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
@@ -80,5 +86,58 @@ public class AdminServiceImpl implements AdminService {
 
         transaction.setStatus(TransactionStatus.COMPLETED);
         transactionRepository.save(transaction);
+    }
+
+    // Approve Online Banking Activation
+    public String approveOnlineBanking(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            return "User not found!";
+        }
+
+        User user = optionalUser.get();
+        if (user.getOnlineBankingStatus() != OnlineBankingStatus.PENDING_FOR_ACTIVATION) {
+            return "User has not requested online banking activation!";
+        }
+
+        user.setOnlineBankingStatus(OnlineBankingStatus.ACTIVE);
+        userRepository.save(user);
+
+        return "User's online banking access has been activated!";
+    }
+
+    // Deactivate Online Banking
+    public String deactivateOnlineBanking(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            return "User not found!";
+        }
+
+        User user = optionalUser.get();
+        if (user.getOnlineBankingStatus() == OnlineBankingStatus.NOT_ACTIVE) {
+            return "Online Banking is already deactivated!";
+        }
+
+        user.setOnlineBankingStatus(OnlineBankingStatus.NOT_ACTIVE);
+        userRepository.save(user);
+
+        return "User's online banking access has been deactivated!";
+    }
+
+    // ✅ Admin Update Any User's Information (Including Role)
+    public String updateAdmin(Long adminId, String username, String email, String password, AdminRole role) {
+        Optional<Admin> optionalUser = adminRepository.findById(adminId);
+        if (optionalUser.isEmpty()) {
+            return "User not found!";
+        }
+
+        Admin admin = optionalUser.get();
+        if (username != null && !username.isBlank()) admin.setUsername(username);
+        if (email != null && !email.isBlank()) admin.setEmail(email);
+        if (password != null && !password.isBlank()) admin.setPassword(passwordEncoder.encode(password));
+        if (role != null) admin.setRole(role);
+
+        adminRepository.save(admin);
+        return "User details updated by Admin successfully!";
     }
 }

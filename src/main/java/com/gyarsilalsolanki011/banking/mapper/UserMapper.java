@@ -9,7 +9,8 @@ public class UserMapper {
                 user.getName(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getAddress()
+                user.getAddress(),
+                user.getOnlineBankingStatus()
         );
     }
 }

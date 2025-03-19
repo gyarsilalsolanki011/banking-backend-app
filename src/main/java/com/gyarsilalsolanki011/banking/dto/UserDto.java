@@ -1,5 +1,6 @@
 package com.gyarsilalsolanki011.banking.dto;
 
+import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import lombok.*;
 
 @Data
@@ -11,11 +12,13 @@ public class UserDto {
     private String email;
     private String phone;
     private String address;
+    private OnlineBankingStatus onlineBankingStatus;
 
-    public UserDto(String name, String email, String phone, String address) {
+    public UserDto(String name, String email, String phone, String address, OnlineBankingStatus onlineBankingStatus) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.onlineBankingStatus = onlineBankingStatus;
     }
 }

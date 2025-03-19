@@ -37,6 +37,16 @@ public class AdminController {
         return ResponseEntity.ok(newAdmin);
     }
 
+    // ✅ Admin Update User Endpoint
+    @PutMapping("/update")
+    public String updateAdmin(@RequestParam Long adminId,
+                              @RequestParam(required = false) String username,
+                              @RequestParam(required = false) String email,
+                              @RequestParam(required = false) String password,
+                              @RequestParam(required = false) AdminRole role) {
+        return adminService.updateAdmin(adminId, username, email, password, role);
+    }
+
     @GetMapping("/{adminId}")
     public ResponseEntity<?> getAdminById(@PathVariable Long adminId) {
         try {
@@ -57,14 +67,26 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/approve/{transactionId}")
-    public ResponseEntity<?> approveWithdrawal(@PathVariable Long transactionId){
+    @PostMapping("/approve-withdrawal")
+    public ResponseEntity<?> approveWithdrawal(@RequestParam Long transactionId){
         try {
             adminService.approveWithdrawal(transactionId);
             return ResponseEntity.ok("Approved Successfully");
         } catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    // Approve Online Banking Activation
+    @PostMapping("/approve-online-banking")
+    public String approveOnlineBanking(@RequestParam Long userId) {
+        return adminService.approveOnlineBanking(userId);
+    }
+
+    // Deactivate Online Banking
+    @PostMapping("/deactivate-online-banking")
+    public String deactivateOnlineBanking(@RequestParam Long userId) {
+        return adminService.deactivateOnlineBanking(userId);
     }
 
     @GetMapping("/all-admins")

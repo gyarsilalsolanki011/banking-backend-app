@@ -1,5 +1,6 @@
 package com.gyarsilalsolanki011.banking.entity;
 
+import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,13 @@ public class User {
     @Column(name = "address", nullable = false)
     private String address;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "online_banking", nullable = false)
+    private OnlineBankingStatus onlineBankingStatus;
+
+    @Column(name = "password")
+    private String bankingPassword;
+
     @Column(name = "created_at", updatable = false, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt = new Date();
@@ -41,6 +49,15 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.onlineBankingStatus = OnlineBankingStatus.NOT_ACTIVE;
+    }
+
+    public OnlineBankingStatus getOnlineBankingStatus() {
+        return onlineBankingStatus;
+    }
+
+    public String getBankingPassword() {
+        return bankingPassword;
     }
 
     public Long getId() {
