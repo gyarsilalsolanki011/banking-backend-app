@@ -2,9 +2,11 @@ package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.entity.Admin;
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
+import com.gyarsilalsolanki011.banking.models.AdminLoginResponse;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.utills.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -41,16 +43,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
         Optional<Admin> optionalAdmin = adminRepository.findByUsername(username);
         if (optionalAdmin.isEmpty()){
-            return "Admin Not found";
+            return ResponseEntity.badRequest().body("Admin Not found");
         }
 
         Admin admin = optionalAdmin.get();
         if (!passwordEncoder.matches(password, admin.getPassword())) {
-            return "Invalid credentials";
+            return ResponseEntity.badRequest().body("Invalid credentials");
         }
-        return jwtUtil.generateToken(admin.getUsername(), admin.getRole());
+        String token = jwtUtil.generateToken(admin.getUsername(), admin.getRole());
+        return ResponseEntity.ok(new AdminLoginResponse(token, admin.getEmail()));
     }
 }
