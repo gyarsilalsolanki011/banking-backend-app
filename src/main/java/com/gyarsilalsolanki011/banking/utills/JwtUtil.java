@@ -4,6 +4,7 @@ import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -11,8 +12,11 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY = "MY_SECRET_KEY_12345678901234567890"; // Change this
-    private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
+    @Value("${jwt.secret.key}")
+    private  String SECRET_KEY;
+
+    @Value("${jwt.expiration.time}")
+    private long EXPIRATION_TIME;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

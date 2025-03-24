@@ -8,3 +8,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
+jwt:
+  secret:
+    key: "MY_SECRET_KEY_12345678901234567890"
+  expiration:
+    time: 86400000
+

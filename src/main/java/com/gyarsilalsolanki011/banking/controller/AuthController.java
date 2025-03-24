@@ -43,8 +43,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
-        Optional<Admin> optionalAdmin = adminRepository.findByUsername(username);
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+        Optional<Admin> optionalAdmin = adminRepository.findByEmail(email);
         if (optionalAdmin.isEmpty()){
             return ResponseEntity.badRequest().body("Admin Not found");
         }
@@ -54,6 +54,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Invalid credentials");
         }
         String token = jwtUtil.generateToken(admin.getUsername(), admin.getRole());
-        return ResponseEntity.ok(new AdminLoginResponse(token, admin.getEmail()));
+        return ResponseEntity.ok(new AdminLoginResponse(token, admin.getRole().toString()));
     }
 }
