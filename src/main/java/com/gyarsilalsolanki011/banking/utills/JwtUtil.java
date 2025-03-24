@@ -4,10 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -23,15 +26,23 @@ public class JwtUtil {
     }
 
     // ✅ Method to Generate Token
-    public String generateToken(String username, String role){
-        return createToken(username, role);
+    public String generateToken(Authentication authentication){
+        Map<String, Object> claims = new HashMap<>();
+
+        // If the user has a role (Admin), add it to the token, otherwise assign "USER"
+        if (authentication.getAuthorities().isEmpty()) {
+            claims.put("role", "USER");
+        } else {
+            claims.put("role", authentication.getAuthorities().iterator().next().getAuthority());
+        }
+        return createToken(claims, authentication.getName());
     }
 
     // ✅ Method to Create Token
-    public String createToken(String username, String role) {
+    public String createToken(Map<String, Object> claims, String username) {
         return Jwts.builder()
                 .subject(username)
-                .claim("role", role)
+                .claims(claims)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), Jwts.SIG.HS256)  // Updated method

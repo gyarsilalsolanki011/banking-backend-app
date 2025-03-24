@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,11 +32,19 @@ public class Admin {
     @Column(name = "admin_role")
     private AdminRole role;
 
+    @Column(name = "created_at", updatable = false, nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt = new Date();
+
     public Admin(String username, String email, String password, AdminRole role) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public Long getId() {
