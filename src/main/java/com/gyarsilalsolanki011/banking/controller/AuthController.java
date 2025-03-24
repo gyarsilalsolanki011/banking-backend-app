@@ -53,7 +53,7 @@ public class AuthController {
         if (!passwordEncoder.matches(password, admin.getPassword())) {
             return ResponseEntity.badRequest().body("Invalid credentials");
         }
-        String token = jwtUtil.generateToken(admin.getUsername(), admin.getRole());
+        String token = jwtUtil.generateToken(admin.getUsername(), admin.getRole().toString());
         return ResponseEntity.ok(new AdminLoginResponse(token, admin.getRole().toString()));
     }
 }

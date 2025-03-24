@@ -1,6 +1,5 @@
 package com.gyarsilalsolanki011.banking.utills;
 
-import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -13,26 +12,33 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     @Value("${jwt.secret.key}")
-    private  String SECRET_KEY;
+    private String SECRET_KEY;
 
     @Value("${jwt.expiration.time}")
     private long EXPIRATION_TIME;
 
+    // ✅ Method to generate signing key
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    // Generate Token
-    public String generateToken(String username, AdminRole role) {
+    // ✅ Method to Generate Token
+    public String generateToken(String username, String role){
+        return createToken(username, role);
+    }
+
+    // ✅ Method to Create Token
+    public String createToken(String username, String role) {
         return Jwts.builder()
                 .subject(username)
-                .claim("role", role.name())
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), Jwts.SIG.HS256)  // Updated method
                 .compact();
     }
 
+    // ✅ Method to Extract All Claims from Token
     public Claims extractClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
@@ -41,15 +47,24 @@ public class JwtUtil {
                 .getPayload();
     }
 
+    // ✅ Method to Extract Username from Token
     public String extractUsername(String token) {
         return extractClaims(token).getSubject();
     }
 
-    public AdminRole extractRole(String token) {
-        return AdminRole.valueOf(extractClaims(token).get("role", String.class));
+    // ✅ Method to Validate Token
+    public boolean validateToken(String token, org.springframework.security.core.userdetails.UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public boolean validateToken(String token, String username) {
-        return extractUsername(token).equals(username) && !extractClaims(token).getExpiration().before(new Date());
+    // ✅ Method to Check if Token is Expired
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    // ✅ Method to Extract Expiration Date from Token
+    private Date extractExpiration(String token) {
+        return extractClaims(token).getExpiration();
     }
 }
