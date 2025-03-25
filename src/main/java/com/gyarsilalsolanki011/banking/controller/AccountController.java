@@ -5,9 +5,13 @@ import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AccountType;
 import com.gyarsilalsolanki011.banking.service.AccountService;
 import com.gyarsilalsolanki011.banking.service.UserService;
+import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -22,10 +26,12 @@ public class AccountController {
     @PostMapping("/create")
     public ResponseEntity<?> createAccount(@RequestParam Long userId,
                                            @RequestParam String accountType,
-                                           @RequestParam double balance){
+                                           @RequestParam double balance,
+                                           Principal principal){
         User user;
         try {
-            user = userService.getUserById(userId);
+            String username = principal.getName();
+            user = userService.getUserById(userId, username);
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -41,10 +47,26 @@ public class AccountController {
         return ResponseEntity.ok(newAccount);
     }
 
-    @GetMapping("/{accountId}")
-    public ResponseEntity<?> getAccountById(@PathVariable Long accountId){
+    @GetMapping("/get-one")
+    public ResponseEntity<?> getAccountById(@RequestParam String accountType, @RequestParam Long userId, Principal principal){
         try {
-            AccountDto account = accountService.getAccountById(accountId);
+            AccountType type;
+            try {
+                type = AccountType.valueOf(accountType.toUpperCase());
+            } catch (IllegalArgumentException e){
+                return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+            }
+
+            AccountDto account = null;
+            String name = principal.getName();
+            userService.getUserById(userId, name);
+            List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
+            for (AccountDto accountDto : allAccounts){
+                if (accountDto.getAccountType() == type){
+                    account = accountService.getAccountById(accountDto.getAccountId());
+                }
+            }
+            assert account != null;
             return ResponseEntity.ok(account);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -52,10 +74,25 @@ public class AccountController {
     }
 
     // Delete API
-    @DeleteMapping("/delete/{accountId}")
-    public  ResponseEntity<?> delete(@PathVariable Long accountId){
+    @DeleteMapping("/delete")
+    public  ResponseEntity<?> delete(@RequestParam String accountType, @RequestParam Long userId, Principal principal){
         try {
-            accountService.delete(accountId);
+            AccountType type;
+            try {
+                type = AccountType.valueOf(accountType.toUpperCase());
+            } catch (IllegalArgumentException e){
+                return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+            }
+
+            String name = principal.getName();
+            userService.getUserById(userId, name);
+            List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
+            for (AccountDto accountDto : allAccounts){
+                if (accountDto.getAccountType() == type){
+                    accountService.delete(accountDto.getAccountId());
+                }
+            }
+
             return ResponseEntity.ok("Account deleted successfully");
         } catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());

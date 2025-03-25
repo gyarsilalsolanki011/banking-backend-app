@@ -1,11 +1,13 @@
 package com.gyarsilalsolanki011.banking.controller;
 
+import com.gyarsilalsolanki011.banking.dto.UserDto;
 import com.gyarsilalsolanki011.banking.entity.Admin;
 import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import com.gyarsilalsolanki011.banking.models.AdminLoginResponse;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
+import com.gyarsilalsolanki011.banking.service.UserService;
 import com.gyarsilalsolanki011.banking.utills.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +37,13 @@ public class AuthController {
     private UserRepository userRepository;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private UserService userService;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String role) {
+    public String registerAdmin(@RequestParam String username, @RequestParam String email, @RequestParam String password, @RequestParam String role) {
         if (adminRepository.findByUsername(username).isPresent()) {
             return "Admin already exists";
         }
@@ -86,5 +90,20 @@ public class AuthController {
         String token = jwtUtil.generateToken(authentication);
 
         return ResponseEntity.ok(new AdminLoginResponse(token, authentication.getAuthorities().iterator().next().getAuthority()));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<UserDto> createUser(@RequestParam String name,
+                                              @RequestParam String email,
+                                              @RequestParam String phone,
+                                              @RequestParam String address){
+        UserDto newUser = userService.createUser(name, email, phone, address);
+        return ResponseEntity.ok(newUser);
+    }
+
+    // Request Online Banking Activation
+    @PostMapping("/request-online-banking")
+    public String requestOnlineBanking(@RequestParam Long userId, @RequestParam String bankingPassword) {
+        return userService.requestOnlineBanking(userId, bankingPassword);
     }
 }

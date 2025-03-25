@@ -9,6 +9,7 @@ import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,13 +36,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id) {
+    public User getUserById(Long id, String authenticatedUsername) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
             throw new IllegalArgumentException("User Not found");
         }
-        return optionalUser.get();
+        User user = optionalUser.get();
+        // Ensure users can only access their own details
+        if (!user.getName().equals(authenticatedUsername)) {
+            throw new AccessDeniedException("You are not allowed to view this user’s data");
+        }
+        return user;
     }
+
 
     @Override
     public List<UserDto> getAllUsers() {
@@ -52,15 +59,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public void deleteUser(Long userId, String authenticatedUsername) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()){
             throw new IllegalArgumentException("User Not found!");
         }
 
+        User user = optionalUser.get();
+        if (!user.getName().equals(authenticatedUsername)) {
+            throw new AccessDeniedException("You are not allowed to view this user’s data");
+        }
+
         List<Account> allAccounts = accountRepository.findByUserId(userId);
         if (allAccounts.isEmpty()){
-            User user = optionalUser.get();
             userRepository.delete(user);
         } else {
             throw new IllegalArgumentException("First delete all account of the user");
@@ -68,13 +79,17 @@ public class UserServiceImpl implements UserService {
     }
 
     // ✅ User Update Their Own Information
-    public String updateUser(Long userId, String name, String email, String phone, String address) {
+    @Override
+    public String updateUser(Long userId, String name, String email, String phone, String address, String authenticatedUsername) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             return "User not found!";
         }
 
         User user = optionalUser.get();
+        if (!user.getName().equals(authenticatedUsername)) {
+            throw new AccessDeniedException("You are not allowed to view this user’s data");
+        }
         if (name != null && !name.isBlank()) user.setName(name);
         if (email != null && !email.isBlank()) user.setEmail(email);
         if (phone != null && !phone.isBlank()) user.setPhone(phone);
@@ -85,6 +100,7 @@ public class UserServiceImpl implements UserService {
     }
 
     // Request Online Banking Activation
+    @Override
     public String requestOnlineBanking(Long userId, String bankingPassword) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
@@ -104,9 +120,14 @@ public class UserServiceImpl implements UserService {
     }
 
     // Check Online Banking Status
-    public OnlineBankingStatus getOnlineBankingStatus(Long userId) {
-        return userRepository.findById(userId)
-                .map(User::getOnlineBankingStatus)
-                .orElse(null);
+    @Override
+    public OnlineBankingStatus getOnlineBankingStatus(Long userId, String authenticatedUsername) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!user.getName().equals(authenticatedUsername)) {
+            throw new AccessDeniedException("You are not allowed to view this user’s data");
+        }
+
+        return user.getOnlineBankingStatus();
     }
 }

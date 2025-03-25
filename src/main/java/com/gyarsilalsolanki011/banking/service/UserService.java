@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface UserService {
     UserDto createUser(String name, String email, String phone, String address);
-    OnlineBankingStatus getOnlineBankingStatus(Long userId);
     String requestOnlineBanking(Long userId, String bankingPassword);
-    String updateUser(Long userId, String username, String email, String phone, String address);
-    User getUserById(Long userId);
-
+    OnlineBankingStatus getOnlineBankingStatus(Long userId, String authenticatedUsername);
+    String updateUser(Long userId, String username, String email, String phone, String address, String authenticatedUsername);
+    User getUserById(Long userId, String authenticatedUsername);
+    void deleteUser(Long userId, String authenticatedUsername);
     List<UserDto> getAllUsers();
-    void deleteUser(Long userId);
 }
