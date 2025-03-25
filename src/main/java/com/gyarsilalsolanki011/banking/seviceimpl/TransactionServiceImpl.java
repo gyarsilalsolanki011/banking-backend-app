@@ -64,11 +64,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Transactional
     @Override
-    public TransactionDto transfer(Long fromAccountId, Long toAccountId, double amount) {
+    public TransactionDto transfer(Long fromAccountId, String toAccountNumber, double amount) {
         Account fromAccount = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new RuntimeException("Sender account not found"));
 
-        Account toAccount = accountRepository.findById(toAccountId)
+        Account toAccount = accountRepository.findByAccountNumber(toAccountNumber)
                 .orElseThrow(() -> new RuntimeException("Receiver account not found"));
 
 
