@@ -2,7 +2,9 @@ package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.TransactionDto;
+import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AccountType;
+import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.AccountService;
 import com.gyarsilalsolanki011.banking.service.TransactionService;
 import com.gyarsilalsolanki011.banking.service.UserService;
@@ -22,19 +24,25 @@ public class TransactionController {
     private AccountService accountService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/deposit")
-    public ResponseEntity<?> deposit(@RequestParam String accountType, @RequestParam double amount, @RequestParam Long userId, Principal principal) {
+    public ResponseEntity<TransactionDto> deposit(@RequestParam String accountType, @RequestParam double amount, @RequestParam String email, Principal principal) {
         try {
             AccountType type;
             try {
                 type = AccountType.valueOf(accountType.toUpperCase());
             } catch (IllegalArgumentException e){
-                return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+                throw new IllegalArgumentException("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
             }
 
             TransactionDto transaction = null;
             String name = principal.getName();
+
+            User userForId = userRepository.findByEmail(email).orElseThrow();
+            Long userId = userForId.getId();
+
             userService.getUserById(userId, name);
             List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
             for (AccountDto accountDto : allAccounts){
@@ -45,22 +53,26 @@ public class TransactionController {
             assert transaction != null;
             return ResponseEntity.ok(transaction);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<?> withdraw(@RequestParam String accountType, @RequestParam double amount, @RequestParam Long userId, Principal principal) {
+    public ResponseEntity<TransactionDto> withdraw(@RequestParam String accountType, @RequestParam double amount, @RequestParam String email, Principal principal) {
         try {
             AccountType type;
             try {
                 type = AccountType.valueOf(accountType.toUpperCase());
             } catch (IllegalArgumentException e){
-                return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+                throw new IllegalArgumentException("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
             }
 
             TransactionDto transaction = null;
             String name = principal.getName();
+
+            User userForId = userRepository.findByEmail(email).orElseThrow();
+            Long userId = userForId.getId();
+
             userService.getUserById(userId, name);
             List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
             for (AccountDto accountDto : allAccounts){
@@ -71,23 +83,27 @@ public class TransactionController {
             assert transaction != null;
             return ResponseEntity.ok(transaction);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<?> transfer(@RequestParam String toAccountNumber, @RequestParam String accountType,
-                                      double amount, @RequestParam Long userId, Principal principal){
+    public ResponseEntity<TransactionDto> transfer(@RequestParam String toAccountNumber, @RequestParam String accountType,
+                                      double amount, @RequestParam String email, Principal principal){
         try {
             AccountType type;
             try {
                 type = AccountType.valueOf(accountType.toUpperCase());
             } catch (IllegalArgumentException e){
-                return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+                throw new IllegalArgumentException("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
             }
 
             TransactionDto transaction = null;
             String name = principal.getName();
+
+            User userForId = userRepository.findByEmail(email).orElseThrow();
+            Long userId = userForId.getId();
+
             userService.getUserById(userId, name);
             List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
             for (AccountDto accountDto : allAccounts){
@@ -98,22 +114,26 @@ public class TransactionController {
             assert transaction != null;
             return ResponseEntity.ok(transaction);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @GetMapping("/account/transactions")
-    public ResponseEntity<?> getTransactions(@RequestParam String accountType, @RequestParam Long userId, Principal principal) {
+    public ResponseEntity<List<TransactionDto>> getTransactions(@RequestParam String accountType, @RequestParam String email, Principal principal) {
         try {
             AccountType type;
             try {
                 type = AccountType.valueOf(accountType.toUpperCase());
             } catch (IllegalArgumentException e){
-                return ResponseEntity.badRequest().body("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
+                throw new IllegalArgumentException("Invalid account type! Choose: SAVINGS, CURRENT, or FIXED_DEPOSIT.");
             }
 
             List<TransactionDto> allTransaction = null;
             String name = principal.getName();
+
+            User userForId = userRepository.findByEmail(email).orElseThrow();
+            Long userId = userForId.getId();
+
             userService.getUserById(userId, name);
             List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
             for (AccountDto accountDto : allAccounts){
@@ -124,7 +144,7 @@ public class TransactionController {
             assert allTransaction != null;
             return ResponseEntity.ok(allTransaction);
         } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body("Bad Request");
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

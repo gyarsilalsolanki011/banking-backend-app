@@ -4,7 +4,7 @@ import com.gyarsilalsolanki011.banking.dto.UserDto;
 import com.gyarsilalsolanki011.banking.entity.Admin;
 import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
-import com.gyarsilalsolanki011.banking.models.AdminLoginResponse;
+import com.gyarsilalsolanki011.banking.models.LoginResponse;
 import com.gyarsilalsolanki011.banking.models.StringResponse;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
@@ -90,7 +90,7 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(authentication);
 
-        return ResponseEntity.ok(new AdminLoginResponse(token, authentication.getAuthorities().iterator().next().getAuthority()));
+        return ResponseEntity.ok(new LoginResponse(token, authentication.getAuthorities().iterator().next().getAuthority()));
     }
 
     @PostMapping("/create")

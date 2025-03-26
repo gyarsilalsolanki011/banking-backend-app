@@ -2,8 +2,11 @@ package com.gyarsilalsolanki011.banking.controller;
 
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.UserDto;
+import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.mapper.UserMapper;
+import com.gyarsilalsolanki011.banking.models.StringResponse;
+import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,55 +23,65 @@ public class UserController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private UserRepository userRepository;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserById(@PathVariable Long userId, Principal principal){
+    @GetMapping("/get-one")
+    public ResponseEntity<UserDto> getUserById(@RequestParam String email, Principal principal){
         try {
             String username = principal.getName();
+
+            User userForId = userRepository.findByEmail(email).orElseThrow();
+            Long userId = userForId.getId();
+
             UserDto user = UserMapper.mapToUserDto(userService.getUserById(userId, username));
             return ResponseEntity.ok(user);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+           throw new RuntimeException(e.getMessage());
         }
     }
 
-    @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId, Principal principal){
+    @DeleteMapping("/delete")
+    public ResponseEntity<StringResponse> deleteUser(@RequestParam String email, Principal principal){
         try {
             String name = principal.getName();
-            userService.deleteUser(userId, name);
-            return ResponseEntity.ok("User Deleted successfully");
+            userService.deleteUser(email, name);
+            return ResponseEntity.ok(new StringResponse("User Deleted successfully"));
         } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     @GetMapping("/all-accounts")
-    public ResponseEntity<?> getAllAccountsByUserId(@RequestParam Long userId){
+    public ResponseEntity<List<AccountDto>> getAllAccountsByUserId(@RequestParam String email){
         try {
+            User userForId = userRepository.findByEmail(email).orElseThrow();
+            Long userId = userForId.getId();
+
             List<AccountDto> accounts = accountService.getAllAccountsByUserId(userId);
             return ResponseEntity.ok(accounts);
         } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
     // ✅ User Update Endpoint
     @PutMapping("/update")
-    public String updateUser(@RequestParam Long userId,
-                             @RequestParam(required = false) String name,
-                             @RequestParam(required = false) String email,
-                             @RequestParam(required = false) String phone,
-                             @RequestParam(required = false) String address,
-                             Principal principal) {
+    public ResponseEntity<StringResponse> updateUser(@RequestParam String originalEmail,
+                                                     @RequestParam(required = false) String name,
+                                                     @RequestParam(required = false) String email,
+                                                     @RequestParam(required = false) String phone,
+                                                     @RequestParam(required = false) String address,
+                                                     Principal principal) {
         String authenticateName = principal.getName();
-        return userService.updateUser(userId, name, email, phone, address, authenticateName);
+        String response = userService.updateUser(originalEmail, name, email, phone, address, authenticateName);
+        return ResponseEntity.ok(new StringResponse(response));
     }
 
     // Check Online Banking Status
     @GetMapping("/online-banking-status")
-    public OnlineBankingStatus getOnlineBankingStatus(@RequestParam Long userId, Principal principal) {
+    public ResponseEntity<StringResponse> getOnlineBankingStatus(@RequestParam String email, Principal principal) {
         String name = principal.getName();
-        return userService.getOnlineBankingStatus(userId, name);
+        return ResponseEntity.ok(new StringResponse(userService.getOnlineBankingStatus(email, name)));
     }
 }

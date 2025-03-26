@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long id, String authenticatedUsername) {
-        Optional<User> optionalUser = userRepository.findById(id);
+    public User getUserById(Long userId, String authenticatedUsername) {
+        Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isEmpty()) {
             throw new IllegalArgumentException("User Not found");
         }
@@ -59,13 +59,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long userId, String authenticatedUsername) {
-        Optional<User> optionalUser = userRepository.findById(userId);
+    public void deleteUser(String email, String authenticatedUsername) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()){
             throw new IllegalArgumentException("User Not found!");
         }
 
         User user = optionalUser.get();
+
+        User userForId = userRepository.findByEmail(email).orElseThrow();
+        Long userId = userForId.getId();
+
         if (!user.getName().equals(authenticatedUsername)) {
             throw new AccessDeniedException("You are not allowed to view this user’s data");
         }
@@ -80,8 +84,8 @@ public class UserServiceImpl implements UserService {
 
     // ✅ User Update Their Own Information
     @Override
-    public String updateUser(Long userId, String name, String email, String phone, String address, String authenticatedUsername) {
-        Optional<User> optionalUser = userRepository.findById(userId);
+    public String updateUser(String originalEmail, String name, String email, String phone, String address, String authenticatedUsername) {
+        Optional<User> optionalUser = userRepository.findByEmail(originalEmail);
         if (optionalUser.isEmpty()) {
             return "User not found!";
         }
@@ -121,13 +125,13 @@ public class UserServiceImpl implements UserService {
 
     // Check Online Banking Status
     @Override
-    public OnlineBankingStatus getOnlineBankingStatus(Long userId, String authenticatedUsername) {
-        User user = userRepository.findById(userId)
+    public String getOnlineBankingStatus(String email, String authenticatedUsername) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         if (!user.getName().equals(authenticatedUsername)) {
             throw new AccessDeniedException("You are not allowed to view this user’s data");
         }
 
-        return user.getOnlineBankingStatus();
+        return user.getOnlineBankingStatus().toString();
     }
 }
