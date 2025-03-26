@@ -5,6 +5,7 @@ import com.gyarsilalsolanki011.banking.entity.Admin;
 import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AdminRole;
 import com.gyarsilalsolanki011.banking.models.AdminLoginResponse;
+import com.gyarsilalsolanki011.banking.models.StringResponse;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.UserService;
@@ -82,7 +83,7 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("Invalid credentials");
             }
         } else {
-            return ResponseEntity.badRequest().body("User Not found");
+            return ResponseEntity.badRequest().body("User or Admin Not found");
         }
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
@@ -93,17 +94,18 @@ public class AuthController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserDto> createUser(@RequestParam String name,
+    public ResponseEntity<StringResponse> createUser(@RequestParam String name,
                                               @RequestParam String email,
                                               @RequestParam String phone,
                                               @RequestParam String address){
         UserDto newUser = userService.createUser(name, email, phone, address);
-        return ResponseEntity.ok(newUser);
+        return ResponseEntity.ok(new StringResponse("User Register successfully"));
     }
 
     // Request Online Banking Activation
     @PostMapping("/request-online-banking")
-    public String requestOnlineBanking(@RequestParam Long userId, @RequestParam String bankingPassword) {
-        return userService.requestOnlineBanking(userId, bankingPassword);
+    public ResponseEntity<StringResponse> requestOnlineBanking(@RequestParam String email,
+                                       @RequestParam String bankingPassword) {
+        return ResponseEntity.ok(new StringResponse(userService.requestOnlineBanking(email, bankingPassword)));
     }
 }

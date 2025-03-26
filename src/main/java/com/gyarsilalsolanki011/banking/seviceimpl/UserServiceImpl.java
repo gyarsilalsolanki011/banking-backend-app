@@ -101,8 +101,8 @@ public class UserServiceImpl implements UserService {
 
     // Request Online Banking Activation
     @Override
-    public String requestOnlineBanking(Long userId, String bankingPassword) {
-        Optional<User> optionalUser = userRepository.findById(userId);
+    public String requestOnlineBanking(String eamil, String bankingPassword) {
+        Optional<User> optionalUser = userRepository.findByEmail(eamil);
         if (optionalUser.isEmpty()) {
             return "User not found!";
         }
