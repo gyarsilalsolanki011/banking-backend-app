@@ -28,7 +28,10 @@ public class TransactionController {
     private UserRepository userRepository;
 
     @PostMapping("/deposit")
-    public ResponseEntity<TransactionDto> deposit(@RequestParam String accountType, @RequestParam double amount, @RequestParam String email, Principal principal) {
+    public ResponseEntity<TransactionDto> deposit(@RequestParam String accountType,
+                                                  @RequestParam double amount,
+                                                  @RequestParam String email,
+                                                  Principal principal) {
         try {
             AccountType type;
             try {
@@ -58,7 +61,10 @@ public class TransactionController {
     }
 
     @PostMapping("/withdraw")
-    public ResponseEntity<TransactionDto> withdraw(@RequestParam String accountType, @RequestParam double amount, @RequestParam String email, Principal principal) {
+    public ResponseEntity<TransactionDto> withdraw(@RequestParam String accountType,
+                                                   @RequestParam double amount,
+                                                   @RequestParam String email,
+                                                   Principal principal) {
         try {
             AccountType type;
             try {
@@ -88,8 +94,11 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<TransactionDto> transfer(@RequestParam String toAccountNumber, @RequestParam String accountType,
-                                      double amount, @RequestParam String email, Principal principal){
+    public ResponseEntity<TransactionDto> transfer(@RequestParam String toAccountNumber,
+                                                   @RequestParam String accountType,
+                                                   @RequestParam double amount,
+                                                   @RequestParam String email,
+                                                   Principal principal){
         try {
             AccountType type;
             try {
@@ -119,7 +128,9 @@ public class TransactionController {
     }
 
     @GetMapping("/account/transactions")
-    public ResponseEntity<List<TransactionDto>> getTransactions(@RequestParam String accountType, @RequestParam String email, Principal principal) {
+    public ResponseEntity<List<TransactionDto>> getTransactions(@RequestParam String accountType,
+                                                                @RequestParam String email,
+                                                                Principal principal) {
         try {
             AccountType type;
             try {

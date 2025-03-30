@@ -3,13 +3,15 @@ package com.gyarsilalsolanki011.banking.controller;
 import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.UserDto;
 import com.gyarsilalsolanki011.banking.entity.User;
-import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.mapper.UserMapper;
 import com.gyarsilalsolanki011.banking.models.StringResponse;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
-import com.gyarsilalsolanki011.banking.service.*;
+import com.gyarsilalsolanki011.banking.service.AccountService;
+import com.gyarsilalsolanki011.banking.service.UserService;
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -53,10 +55,15 @@ public class UserController {
     }
 
     @GetMapping("/all-accounts")
-    public ResponseEntity<List<AccountDto>> getAllAccountsByUserId(@RequestParam String email){
+    public ResponseEntity<List<AccountDto>> getAllAccountsByUserId(@RequestParam String email, Principal principal){
         try {
+            String name = principal.getName();
             User userForId = userRepository.findByEmail(email).orElseThrow();
             Long userId = userForId.getId();
+
+            if (!name.equals(userForId.getName())) {
+                throw new AccessDeniedException("U are not allowed to view this detail");
+            }
 
             List<AccountDto> accounts = accountService.getAllAccountsByUserId(userId);
             return ResponseEntity.ok(accounts);

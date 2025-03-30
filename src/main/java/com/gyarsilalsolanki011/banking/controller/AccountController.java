@@ -54,7 +54,9 @@ public class AccountController {
     }
 
     @GetMapping("/get-one")
-    public ResponseEntity<AccountDto> getAccountById(@RequestParam String accountType, @RequestParam String email, Principal principal){
+    public ResponseEntity<AccountDto> getAccountById(@RequestParam String accountType,
+                                                     @RequestParam String email,
+                                                     Principal principal){
         try {
             AccountType type;
             try {
@@ -85,7 +87,9 @@ public class AccountController {
 
     // Delete API
     @DeleteMapping("/delete")
-    public  ResponseEntity<StringResponse> delete(@RequestParam String accountType, @RequestParam String email, Principal principal){
+    public  ResponseEntity<StringResponse> delete(@RequestParam String accountType,
+                                                  @RequestParam String email,
+                                                  Principal principal){
         try {
             AccountType type;
             try {
