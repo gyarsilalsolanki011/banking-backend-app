@@ -12,6 +12,7 @@ public interface UserService {
     String getOnlineBankingStatus(String email, String authenticatedUsername);
     String updateUser(String originalEmail, String username, String email, String phone, String address, String authenticatedUsername);
     User getUserById(Long userId, String authenticatedUsername);
+    String forgotPassword(String email, String password);
     void deleteUser(String email, String authenticatedUsername);
     List<UserDto> getAllUsers();
 }

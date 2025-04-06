@@ -103,10 +103,23 @@ public class UserServiceImpl implements UserService {
         return "User details updated successfully!";
     }
 
+    // recover Password
+    @Override
+    public String forgotPassword(String email, String password) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            return "User not found!";
+        }
+        User user = optionalUser.get();
+        user.setBankingPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+        return "Password recovered successfully !";
+    }
+
     // Request Online Banking Activation
     @Override
-    public String requestOnlineBanking(String eamil, String bankingPassword) {
-        Optional<User> optionalUser = userRepository.findByEmail(eamil);
+    public String requestOnlineBanking(String email, String bankingPassword) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) {
             return "User not found!";
         }

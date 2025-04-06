@@ -18,11 +18,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @RestController
@@ -107,5 +105,12 @@ public class AuthController {
     public ResponseEntity<StringResponse> requestOnlineBanking(@RequestParam String email,
                                        @RequestParam String bankingPassword) {
         return ResponseEntity.ok(new StringResponse(userService.requestOnlineBanking(email, bankingPassword)));
+    }
+
+    @PutMapping("/recover-password")
+    public ResponseEntity<StringResponse> passwordRecoverRequest(@RequestParam String email,
+                                                                 @RequestParam String password) {
+        String response = userService.forgotPassword(email, password);
+        return ResponseEntity.ok(new StringResponse(response));
     }
 }

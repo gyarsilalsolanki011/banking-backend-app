@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new RuntimeException("Insufficient balance");
         }
 
-        TransactionStatus status = (account.getBalance() > WITHDRAWAL_APPROVAL_LIMIT) ? TransactionStatus.PENDING : TransactionStatus.COMPLETED;
+        TransactionStatus status = (account.getBalance() > WITHDRAWAL_APPROVAL_LIMIT) ? TransactionStatus.COMPLETED : TransactionStatus.PENDING;
 
         Transaction transaction = new Transaction(account, amount, TransactionType.WITHDRAWAL, status);
         transactionRepository.save(transaction);
