@@ -22,6 +22,9 @@ public class Transaction {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    @Column(name = "to_account_number")
+    private String toAccountNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_type")
     private TransactionType transactionType;
@@ -36,8 +39,9 @@ public class Transaction {
     @Column(name = "status")
     private TransactionStatus status;
 
-    public Transaction(Account account, Double amount, TransactionType transactionType, TransactionStatus status) {
+    public Transaction(Account account, String toAccountNumber, Double amount, TransactionType transactionType, TransactionStatus status) {
         this.account = account;
+        this.toAccountNumber = toAccountNumber;
         this.transactionType = transactionType;
         this.amount = amount;
         this.status = status;
@@ -49,6 +53,10 @@ public class Transaction {
 
     public Account getAccount() {
         return account;
+    }
+
+    public String getToAccountNumber() {
+        return toAccountNumber;
     }
 
     public TransactionType getTransactionType() {

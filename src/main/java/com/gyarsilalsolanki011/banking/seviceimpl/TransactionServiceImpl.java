@@ -34,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
         account.setBalance(account.getBalance() + amount);
         accountRepository.save(account);
 
-        Transaction transaction = new Transaction(account, amount, TransactionType.DEPOSIT, TransactionStatus.COMPLETED);
+        Transaction transaction = new Transaction(account, "selfAccount", amount, TransactionType.DEPOSIT, TransactionStatus.COMPLETED);
         transactionRepository.save(transaction);
 
         return TransactionMapper.mapToTransactionDto(transaction);
@@ -52,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         TransactionStatus status = (account.getBalance() > WITHDRAWAL_APPROVAL_LIMIT) ? TransactionStatus.COMPLETED : TransactionStatus.PENDING;
 
-        Transaction transaction = new Transaction(account, amount, TransactionType.WITHDRAWAL, status);
+        Transaction transaction = new Transaction(account, "selfAccount", amount, TransactionType.WITHDRAWAL, status);
         transactionRepository.save(transaction);
 
         if (status == TransactionStatus.COMPLETED){
@@ -82,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
 
-        Transaction transaction = new Transaction(fromAccount, amount, TransactionType.TRANSFER, TransactionStatus.COMPLETED);
+        Transaction transaction = new Transaction(fromAccount, toAccountNumber, amount, TransactionType.TRANSFER, TransactionStatus.COMPLETED);
         transactionRepository.save(transaction);
 
         return TransactionMapper.mapToTransactionDto(transaction);

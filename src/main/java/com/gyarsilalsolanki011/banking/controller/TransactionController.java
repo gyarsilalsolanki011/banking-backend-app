@@ -4,12 +4,14 @@ import com.gyarsilalsolanki011.banking.dto.AccountDto;
 import com.gyarsilalsolanki011.banking.dto.TransactionDto;
 import com.gyarsilalsolanki011.banking.entity.User;
 import com.gyarsilalsolanki011.banking.enums.AccountType;
+import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.AccountService;
 import com.gyarsilalsolanki011.banking.service.TransactionService;
 import com.gyarsilalsolanki011.banking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -46,12 +48,19 @@ public class TransactionController {
             User userForId = userRepository.findByEmail(email).orElseThrow();
             Long userId = userForId.getId();
 
-            userService.getUserById(userId, name);
-            List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
-            for (AccountDto accountDto : allAccounts){
-                if (accountDto.getAccountType() == type){
-                     transaction = transactionService.deposit(accountDto.getAccountId(), amount);
+            User user = userService.getUserById(userId, name);
+            OnlineBankingStatus status = user.getOnlineBankingStatus();
+            if (status.equals(OnlineBankingStatus.ACTIVE)){
+                List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
+                for (AccountDto accountDto : allAccounts){
+                    if (accountDto.getAccountType() == type){
+                        transaction = transactionService.deposit(accountDto.getAccountId(), amount);
+                    }
                 }
+            } else if (status.equals(OnlineBankingStatus.PENDING_FOR_ACTIVATION)) {
+                throw new AccessDeniedException("Online banking request is pending");
+            } else {
+                throw new RuntimeException("Please activate or request for online banking");
             }
             assert transaction != null;
             return ResponseEntity.ok(transaction);
@@ -79,13 +88,21 @@ public class TransactionController {
             User userForId = userRepository.findByEmail(email).orElseThrow();
             Long userId = userForId.getId();
 
-            userService.getUserById(userId, name);
-            List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
-            for (AccountDto accountDto : allAccounts){
-                if (accountDto.getAccountType() == type){
-                    transaction = transactionService.withdraw(accountDto.getAccountId(), amount);
+            User user = userService.getUserById(userId, name);
+            OnlineBankingStatus status = user.getOnlineBankingStatus();
+            if (status.equals(OnlineBankingStatus.ACTIVE)){
+                List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
+                for (AccountDto accountDto : allAccounts){
+                    if (accountDto.getAccountType() == type){
+                        transaction = transactionService.withdraw(accountDto.getAccountId(), amount);
+                    }
                 }
+            } else if (status.equals(OnlineBankingStatus.PENDING_FOR_ACTIVATION)) {
+                throw new AccessDeniedException("Online banking request is pending");
+            } else {
+                throw new RuntimeException("Please activate or request for online banking");
             }
+
             assert transaction != null;
             return ResponseEntity.ok(transaction);
         } catch (RuntimeException e) {
@@ -113,12 +130,19 @@ public class TransactionController {
             User userForId = userRepository.findByEmail(email).orElseThrow();
             Long userId = userForId.getId();
 
-            userService.getUserById(userId, name);
-            List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
-            for (AccountDto accountDto : allAccounts){
-                if (accountDto.getAccountType() == type){
-                    transaction = transactionService.transfer(accountDto.getAccountId(), toAccountNumber, amount);
+            User user = userService.getUserById(userId, name);
+            OnlineBankingStatus status = user.getOnlineBankingStatus();
+            if (status.equals(OnlineBankingStatus.ACTIVE)){
+                List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
+                for (AccountDto accountDto : allAccounts){
+                    if (accountDto.getAccountType() == type){
+                        transaction = transactionService.transfer(accountDto.getAccountId(), toAccountNumber, amount);
+                    }
                 }
+            } else if (status.equals(OnlineBankingStatus.PENDING_FOR_ACTIVATION)) {
+                throw new AccessDeniedException("Online banking request is pending");
+            } else {
+                throw new RuntimeException("Please activate or request for online banking");
             }
             assert transaction != null;
             return ResponseEntity.ok(transaction);
@@ -145,12 +169,19 @@ public class TransactionController {
             User userForId = userRepository.findByEmail(email).orElseThrow();
             Long userId = userForId.getId();
 
-            userService.getUserById(userId, name);
-            List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
-            for (AccountDto accountDto : allAccounts){
-                if (accountDto.getAccountType() == type){
-                    allTransaction = transactionService.getTransactionsByAccountId(accountDto.getAccountId());
+            User user = userService.getUserById(userId, name);
+            OnlineBankingStatus status = user.getOnlineBankingStatus();
+            if (status.equals(OnlineBankingStatus.ACTIVE)){
+                List<AccountDto> allAccounts = accountService.getAllAccountsByUserId(userId);
+                for (AccountDto accountDto : allAccounts){
+                    if (accountDto.getAccountType() == type){
+                        allTransaction = transactionService.getTransactionsByAccountId(accountDto.getAccountId());
+                    }
                 }
+            } else if (status.equals(OnlineBankingStatus.PENDING_FOR_ACTIVATION)) {
+                throw new AccessDeniedException("Online banking request is pending");
+            } else {
+                throw new RuntimeException("Please activate or request for online banking");
             }
             assert allTransaction != null;
             return ResponseEntity.ok(allTransaction);
