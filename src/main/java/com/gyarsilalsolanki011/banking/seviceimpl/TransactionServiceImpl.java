@@ -9,6 +9,7 @@ import com.gyarsilalsolanki011.banking.mapper.TransactionMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.TransactionRepository;
 import com.gyarsilalsolanki011.banking.service.TransactionService;
+import com.gyarsilalsolanki011.banking.utills.SmsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
+    @Autowired
+    private SmsUtil smsUtil;
+
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -56,8 +60,11 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
 
         if (status == TransactionStatus.COMPLETED){
+            String phone = account.getUser().getPhone();
+            String message = "₹" + amount + " withdrawn from A/C XX" + account.getAccountNumber().substring(account.getAccountNumber().length() - 4) +". Avl Bal: ₹"+transaction.getAccount().getBalance();
             account.setBalance(account.getBalance() - amount);
             accountRepository.save(account);
+            smsUtil.sendSms(message, phone);
         }
         return TransactionMapper.mapToTransactionDto(transaction);
     }
@@ -85,6 +92,9 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = new Transaction(fromAccount, toAccountNumber, amount, TransactionType.TRANSFER, TransactionStatus.COMPLETED);
         transactionRepository.save(transaction);
 
+        String phone = fromAccount.getUser().getPhone();
+        String message = "₹" + amount + " Transfer from A/C XX" + fromAccount.getAccountNumber().substring(fromAccount.getAccountNumber().length() - 4)+" to A/C XX" + toAccount.getAccountNumber().substring(toAccount.getAccountNumber().length() - 4) +". Avl Bal: ₹"+transaction.getAccount().getBalance();
+        smsUtil.sendSms(message, phone);
         return TransactionMapper.mapToTransactionDto(transaction);
     }
 

@@ -10,6 +10,7 @@ import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.UserService;
 import com.gyarsilalsolanki011.banking.utills.JwtUtil;
+import com.gyarsilalsolanki011.banking.utills.SmsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,6 +39,8 @@ public class AuthController {
     private UserDetailsService userDetailsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SmsUtil smsUtil;
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -112,5 +115,11 @@ public class AuthController {
                                                                  @RequestParam String password) {
         String response = userService.forgotPassword(email, password);
         return ResponseEntity.ok(new StringResponse(response));
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<String> sendSms(@RequestParam String to, @RequestParam String msg) {
+        smsUtil.sendSms(msg, to);
+        return ResponseEntity.ok("SMS sent to " + to);
     }
 }

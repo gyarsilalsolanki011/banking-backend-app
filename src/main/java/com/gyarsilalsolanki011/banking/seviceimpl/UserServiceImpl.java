@@ -30,7 +30,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto createUser(String name, String email, String phone, String address) {
-        User newUser = new User(name, email, phone, address);
+        String phoneNumber;
+        if (!phone.startsWith("+91") && phone.length() != 13) {
+            phoneNumber = "+91"+phone;
+        } else {
+            phoneNumber = phone;
+        }
+        User newUser = new User(name, email, phoneNumber, address);
         User savedUser = userRepository.save(newUser);
         return UserMapper.mapToUserDto(savedUser);
     }
