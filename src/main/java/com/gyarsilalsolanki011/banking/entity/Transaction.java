@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+@Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,31 +48,4 @@ public class Transaction {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public String getToAccountNumber() {
-        return toAccountNumber;
-    }
-
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public TransactionStatus getStatus() {
-        return status;
-    }
 }

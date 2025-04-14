@@ -3,11 +3,13 @@ package com.gyarsilalsolanki011.banking.entity;
 import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,35 +54,4 @@ public class User {
         this.onlineBankingStatus = OnlineBankingStatus.NOT_ACTIVE;
     }
 
-    public OnlineBankingStatus getOnlineBankingStatus() {
-        return onlineBankingStatus;
-    }
-
-    public String getBankingPassword() {
-        return bankingPassword;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
 }
