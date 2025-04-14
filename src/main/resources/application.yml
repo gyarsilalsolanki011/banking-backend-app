@@ -1,17 +1,4 @@
 spring:
-  application:
-    name: banking-app
-  datasource:
-    url: "jdbc:mysql://localhost:3306/banking_db"
-    username: root
-    password: Tiger@2000
-  jpa:
-    hibernate:
-      ddl-auto: update
-
-jwt:
-  secret:
-    key: "MY_SECRET_KEY_12345678901234567890"
-  expiration:
-    time: 86400000
+  profiles:
+    active: dev
 
