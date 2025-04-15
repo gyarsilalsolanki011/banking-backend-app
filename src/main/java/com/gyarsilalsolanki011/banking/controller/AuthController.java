@@ -9,8 +9,8 @@ import com.gyarsilalsolanki011.banking.models.StringResponse;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.UserService;
-import com.gyarsilalsolanki011.banking.utills.JwtUtil;
-import com.gyarsilalsolanki011.banking.utills.SmsUtil;
+import com.gyarsilalsolanki011.banking.util.JwtUtil;
+import com.gyarsilalsolanki011.banking.util.SmsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +21,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Optional;
 
 @RestController

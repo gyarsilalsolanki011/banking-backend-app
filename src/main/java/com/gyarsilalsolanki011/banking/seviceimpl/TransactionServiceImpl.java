@@ -9,7 +9,7 @@ import com.gyarsilalsolanki011.banking.mapper.TransactionMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.TransactionRepository;
 import com.gyarsilalsolanki011.banking.service.TransactionService;
-import com.gyarsilalsolanki011.banking.utills.SmsUtil;
+import com.gyarsilalsolanki011.banking.util.SmsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
