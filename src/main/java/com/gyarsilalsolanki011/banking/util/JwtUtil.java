@@ -37,6 +37,7 @@ public class JwtUtil {
                 .subject(username)
                 .claims(claims)
                 .header().empty().add("typ","JWT")
+                .add("iss","BankingApp").add("aud","BankingAppUsers") //optional
                 .and()
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
