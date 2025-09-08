@@ -37,7 +37,7 @@ This is a banking application built using Spring Boot and MySQL that provides fu
 - **Backend**: Java, Spring Boot, Spring Security, JWT
 - **Database**: MySQL, Hibernate (JPA)
 - **Security**: JWT Authentication, Password Encryption (BCrypt)
-- **API Documentation**: Swagger
+- **API Testing**: Swagger, Postman
 - **Build Tool**: Maven
 
 
