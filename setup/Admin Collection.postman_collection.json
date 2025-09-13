@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "939f3b43-dab7-410c-bbd5-b17a3345129e",
+		"name": "Admin Collection",
+		"description": "## 🛠 Admin Collection – Overview\n\nThis collection contains APIs to **manage Admin users**, **approve online banking actions**, and **monitor user accounts and transactions**.\n\nIt is primarily used for **role-based administrative tasks** in the Banking App.\n\n---\n\n### 📊 Endpoints Table\n\n| **Method** | **Endpoint** | **Description** |\n| --- | --- | --- |\n| **POST** | `/api/admins/create` | Creates a new admin user. |\n| **PUT** | `/api/admins/update/{id}` | Updates details of an existing admin by ID. |\n| **DELETE** | `/api/admins/delete/{id}` | Deletes an admin by ID (irreversible). |\n| **GET** | `/api/admins/{id}` | Fetches details of a specific admin by ID. |\n| **POST** | `/api/admins/approve-withdrawal/{transactionId}` | Approves high-value withdrawal transactions. |\n| **POST** | `/api/admins/approve-online-banking/{userId}` | Activates online banking access for a user. |\n| **POST** | `/api/admins/deactivate-online-banking/{userId}` | Deactivates online banking access for a user. |\n| **GET** | `/api/admins/all-users` | Retrieves a list of all registered users. |\n| **GET** | `/api/admins/all-accounts` | Retrieves all bank accounts across users. |\n\n---\n\n### 🔑 Authorization\n\nAll Admin APIs require a **Bearer Token (JWT)**.  \n  \nMake sure you have logged in and set the token under **Authorization → Bearer Token** in Postman before executing any request.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33712155"
+	},
+	"item": [
+		{
+			"name": "Admin Management",
+			"item": [
+				{
+					"name": "create-admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/create?username=Shyam&email=shyam@yahu.in&password=1234&role=SUPER_ADMIN",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"create"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Shyam"
+								},
+								{
+									"key": "email",
+									"value": "shyam@yahu.in"
+								},
+								{
+									"key": "password",
+									"value": "1234"
+								},
+								{
+									"key": "role",
+									"value": "SUPER_ADMIN"
+								}
+							]
+						},
+						"description": "➕ Creates a new admin user.\n\n📝 **Usage:** Provide admin details in Query parameter."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Via Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/{{id}}",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"{{id}}"
+							]
+						},
+						"description": "🔹 _Fetches details of a specific admin by ID._  \n  \n📌 **Usage:** Replace `{id}` with the adminId you want to view."
+					},
+					"response": []
+				},
+				{
+					"name": "update-admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/update?adminId=3&role=MANAGER",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"update"
+							],
+							"query": [
+								{
+									"key": "adminId",
+									"value": "3"
+								},
+								{
+									"key": "username",
+									"value": "Shyam",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "tiger@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"disabled": true
+								},
+								{
+									"key": "role",
+									"value": "MANAGER"
+								}
+							]
+						},
+						"description": "✏ Updates details of an existing admin.\n\n📝 **Usage:** Replace `{id}` with the admin ID and pass updated fields in the request body."
+					},
+					"response": []
+				},
+				{
+					"name": "delete-admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/delete/{{del-id}}",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"delete",
+								"{{del-id}}"
+							]
+						},
+						"description": "🔹 _Deletes an admin by ID._  \n  \n📌 **Usage:** Replace `{id}` with the adminId you want to remove."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Approval Actions",
+			"item": [
+				{
+					"name": "approve-withdrawal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/approve-withdrawal?transactionId=7",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"approve-withdrawal"
+							],
+							"query": [
+								{
+									"key": "transactionId",
+									"value": "7"
+								}
+							]
+						},
+						"description": "✅ Approves high-value withdrawal transactions."
+					},
+					"response": []
+				},
+				{
+					"name": "approve-online-banking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/approve-online-banking?userId=5",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"approve-online-banking"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "5"
+								}
+							]
+						},
+						"description": "✅ Activates online banking for a user."
+					},
+					"response": []
+				},
+				{
+					"name": "deactivate-online-banking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/deactivate-online-banking?userId=1",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"deactivate-online-banking"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "1"
+								}
+							]
+						},
+						"description": "⛔ Deactivates online banking access for a user."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Monitoring & Reports",
+			"item": [
+				{
+					"name": "get-all-users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/all-users",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"all-users"
+							]
+						},
+						"description": "📋 Retrieves a list of all users."
+					},
+					"response": []
+				},
+				{
+					"name": "get-all-accounts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{admin-url}}/all-accounts",
+							"host": [
+								"{{admin-url}}"
+							],
+							"path": [
+								"all-accounts"
+							]
+						},
+						"description": "🏦 Retrieves all bank accounts across users."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "admin-url",
+			"value": "",
+			"description": "Base url for admin"
+		},
+		{
+			"key": "admin-token",
+			"value": ""
+		}
+	]
+}

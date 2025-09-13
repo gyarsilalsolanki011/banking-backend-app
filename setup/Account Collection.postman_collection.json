@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "11f738a5-f1b6-40b0-89e8-c0dc233f7f40",
+		"name": "Account Collection",
+		"description": "## 🏦 Account APIs – Banking Application\n\nThis collection contains all **account-related APIs** for the Banking Application.\n\nYou can use these endpoints to **create, view, and delete bank accounts** for users.\n\n---\n\n### 🔹 Features\n\n✅ **Create Account** – Open a new account for a user\n\n✅ **Retrieve Account** – Get account details by ID\n\n✅ **Delete Account** – Close an account by ID\n\n---\n\n**Account APIs Table**\n\n| Method | Endpoint | Description |\n| --- | --- | --- |\n| POST | `/api/accounts/create` | Create a new account |\n| GET | `/api/accounts/{id}` | Get account details by ID |\n| DELETE | `/api/accounts/{id}` | Delete an account |\n\n### 🛠️ How to Use\n\n1. **Login as Admin/User** → Generate a JWT token using `/api/auth/login`.\n    \n2. **Set Authorization Header** → Add `Authorization: Bearer` in Postman.\n    \n3. **Call Endpoints** → Test account creation, retrieval, and deletion seamlessly.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33712155"
+	},
+	"item": [
+		{
+			"name": "create-account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{account-url}}/create?email=tiger@yahu.in&accountType=SAVINGS&balance=10000",
+					"host": [
+						"{{account-url}}"
+					],
+					"path": [
+						"create"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "SAVINGS"
+						},
+						{
+							"key": "balance",
+							"value": "10000"
+						}
+					]
+				},
+				"description": "🔹 _Creates a new bank account for the specified user._  \n  \n📌 **Usage:** Send user details (userId, accountType, initialBalance) in the request body."
+			},
+			"response": []
+		},
+		{
+			"name": "delete-account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{account-url}}/delete?email=tiger@yahu.in&accountType=CURRENT",
+					"host": [
+						"{{account-url}}"
+					],
+					"path": [
+						"delete"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "CURRENT"
+						}
+					]
+				},
+				"description": "🔹 _Deletes an existing account by its ID._  \n  \n📌 **Usage:** Replace `{id}` with the accountId to be deleted."
+			},
+			"response": []
+		},
+		{
+			"name": "Get One",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{account-url}}/get-one?email=tiger@yahu.in&accountType=current",
+					"host": [
+						"{{account-url}}"
+					],
+					"path": [
+						"get-one"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "current"
+						}
+					]
+				},
+				"description": "🔹 _Fetches details of a specific account by its ID._  \n  \n📌 **Usage:** Replace `{id}` with the accountId you want to retrieve."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "account-url",
+			"value": ""
+		},
+		{
+			"key": "user-token",
+			"value": ""
+		}
+	]
+}

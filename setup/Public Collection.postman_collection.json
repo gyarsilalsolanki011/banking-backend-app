@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "1503b7e6-40ca-4f6c-b829-97802daf83b4",
+		"name": "Public Collection",
+		"description": "## 🌍 Public API – Overview\n\nThis collection contains **publicly accessible APIs** (no prior authentication required) for user registration, login, and requesting online banking.\n\n| **Method** | **Endpoint** | **Description** |\n| --- | --- | --- |\n| **POST** | `/api/auth/register-admin` | Register a new admin account. |\n| **POST** | `/api/auth/register-user` | Register a new user account. |\n| **POST** | `/api/auth/request-online-banking` | Request online banking access for a user. |\n| **POST** | `/api/auth/login` | Authenticate and retrieve JWT token for further requests. |\n| **POST** | `/api/auth/message-service` | Send notification/message service (if applicable). |",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33712155"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "register admin",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{public-url}}/register?username=Tiger Das&email=tiger@gmail.com&password=1234&role=SUPER_ADMIN",
+							"host": [
+								"{{public-url}}"
+							],
+							"path": [
+								"register"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Tiger Das"
+								},
+								{
+									"key": "email",
+									"value": "tiger@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "1234"
+								},
+								{
+									"key": "role",
+									"value": "SUPER_ADMIN"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Message Service",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{public-url}}/send?to=+917879873097&msg=Hello Shyam, How are You?",
+							"host": [
+								"{{public-url}}"
+							],
+							"path": [
+								"send"
+							],
+							"query": [
+								{
+									"key": "to",
+									"value": "+917879873097"
+								},
+								{
+									"key": "msg",
+									"value": "Hello Shyam, How are You?"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "register user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{public-url}}/create?name=Vasu Dev&email=vasudev@yahu.in&phone=7620824421&address=123 Main Street, Jabalpur, India",
+							"host": [
+								"{{public-url}}"
+							],
+							"path": [
+								"create"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Vasu Dev"
+								},
+								{
+									"key": "email",
+									"value": "vasudev@yahu.in"
+								},
+								{
+									"key": "phone",
+									"value": "7620824421"
+								},
+								{
+									"key": "address",
+									"value": "123 Main Street, Jabalpur, India"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "request-online-banking",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{public-url}}/request-online-banking?email=vasudev@yahu.in&bankingPassword=1234",
+							"host": [
+								"{{public-url}}"
+							],
+							"path": [
+								"request-online-banking"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "vasudev@yahu.in"
+								},
+								{
+									"key": "bankingPassword",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{public-url}}/login?email=tiger@gmail.com&password=1234",
+					"host": [
+						"{{public-url}}"
+					],
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "tiger@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "1234"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "public-url",
+			"value": "",
+			"description": "it is base url for public API"
+		}
+	]
+}

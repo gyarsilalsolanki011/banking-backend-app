@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "b49410a9-cc6a-464d-9d19-922e2e60bf0b",
+		"name": "Transaction Collection",
+		"description": "## 💰 Transaction Collection – Overview\n\nThis collection contains APIs for performing transactions and retrieving transaction history.\n\n| **Method** | **Endpoint** | **Description** |\n| --- | --- | --- |\n| **POST** | `/api/transactions/deposit/{accountId}` | Deposit funds into an account. |\n| **POST** | `/api/transactions/withdraw/{accountId}` | Withdraw funds from an account. |\n| **POST** | `/api/transactions/transfer/{fromId}/{toId}` | Transfer funds between two accounts. |\n| **GET** | `/api/transactions/account/{accountId}` | Retrieve transaction history for a specific account. |",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33712155"
+	},
+	"item": [
+		{
+			"name": "deposit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{transaction-url}}/deposit?amount=10000&email=tiger@yahu.in&accountType=CURRENT",
+					"host": [
+						"{{transaction-url}}"
+					],
+					"path": [
+						"deposit"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "10000"
+						},
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "CURRENT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "withdraw",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{transaction-url}}/withdraw?amount=1000&email=tiger@yahu.in&accountType=SAVINGS",
+					"host": [
+						"{{transaction-url}}"
+					],
+					"path": [
+						"withdraw"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "1000"
+						},
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "SAVINGS"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transfer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{transaction-url}}/transfer?amount=1000&email=tiger@yahu.in&accountType=Current&toAccountNumber=952500083680",
+					"host": [
+						"{{transaction-url}}"
+					],
+					"path": [
+						"transfer"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "1000"
+						},
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "Current"
+						},
+						{
+							"key": "toAccountNumber",
+							"value": "952500083680"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction-history",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{transaction-url}}/account/transactions?email=tiger@yahu.in&accountType=SAVINGS",
+					"host": [
+						"{{transaction-url}}"
+					],
+					"path": [
+						"account",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "tiger@yahu.in"
+						},
+						{
+							"key": "accountType",
+							"value": "SAVINGS"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "transaction-url",
+			"value": ""
+		},
+		{
+			"key": "user-token",
+			"value": "",
+			"description": "user authentication token"
+		}
+	]
+}
