@@ -37,7 +37,7 @@ This is a banking application built using Spring Boot and MySQL that provides fu
 - **Backend**: Java, Spring Boot, Spring Security, JWT
 - **Database**: MySQL, Hibernate (JPA)
 - **Security**: JWT Authentication, Password Encryption (BCrypt)
-- **API Documentation**: Swagger
+- **API Testing**: Swagger, Postman
 - **Build Tool**: Maven
 
 
@@ -72,47 +72,35 @@ mvn spring-boot:run
 
 ## 🔗 API Endpoints
 
-### **Public APIs**
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/auth/register` | `POST` | Register a new admin |
-| `/api/auth/login` | `POST` | Admin login & get JWT token |
+| Method               | Endpoint                                 | Description                                                   |
+| -------------------- | ---------------------------------------- | ------------------------------------------------------------- |
+| **Public APIs**      |                                          |                                                               |
+| `POST`               | `/api/auth/register`                     | Register a new admin                                          |
+| `POST`               | `/api/auth/login`                        | Admin login & get JWT token                                   |
+| **User APIs**        |                                          |                                                               |
+| `POST`               | `/api/users`                             | Create a new user                                             |
+| `GET`                | `/api/users/{id}`                        | Get user details by ID                                        |
+| `DELETE`             | `/api/users/{id}`                        | Delete a user                                                 |
+| `GET`                | `/api/users/{id}/accounts`               | Get all accounts by userId                                    |
+| **Account APIs**     |                                          |                                                               |
+| `POST`               | `/api/accounts`                          | Create a new account                                          |
+| `GET`                | `/api/accounts/{id}`                     | Get account details by ID                                     |
+| `DELETE`             | `/api/accounts/{id}`                     | Delete an account                                             |
+| **Transaction APIs** |                                          |                                                               |
+| `POST`               | `/api/transactions/deposit/{accountId}`  | Deposit money into account                                    |
+| `POST`               | `/api/transactions/withdraw/{accountId}` | Withdraw money from account                                   |
+| `POST`               | `/api/transactions/transfer`             | Transfer funds between accounts (sourceId & targetId in body) |
+| `GET`                | `/api/transactions/account/{accountId}`  | Get all transactions by accountId                             |
+| **Admin APIs**       |                                          |                                                               |
+| `GET`                | `/api/admins/users`                      | Get all users                                                 |
+| `GET`                | `/api/admins/accounts`                   | Get all accounts                                              |
+| `GET`                | `/api/admins/transactions`               | Get all transactions                                          |
+| `GET`                | `/api/admins/{id}`                       | Get admin details by ID                                       |
+| `DELETE`             | `/api/admins/{id}`                       | Delete admin by ID                                            |
+| `PUT`                | `/api/admins/approve/{transactionId}`    | Approve big withdrawals                                       |
 
-### **User APIs**
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/users/create` | `POST` | create a new user |
-| `/api/users/all-accounts/{id}` | `GET` | Get all accounts by userId |
-| `/api/users/{id}` | `GET` | Get user details by userId |
-| `/api/users/{id}` | `DELETE` | Delete a user |
 
-### **Account APIs**
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/accounts/create` | `POST` | Create a new account |
-| `/api/accounts/{id}` | `GET` | Get account details by ID |
-| `/api/accounts/{id}` | `DELETE` | Delete an account |
-
-
-### **Transaction APIs**
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/transactions/deposit/{id}` | `POST` | Deposit money by accountId |
-| `/api/transactions/withdraw/{id}` | `POST` | Withdraw money by accountId |
-| `/api/transactions/{id}/transfer/{id}` | `POST` | Transfer funds accountId |
-| `/api/transactions/account/{id}` | `GET` | Get all transactions by accountId |
-
-### **Admin APIs**
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/admins/all-users` | `GET` | Get all users |
-| `/api/admins/all-accounts` | `GET` | Get all accounts |
-| `/api/admins/all-transactions` | `GET` | Get all transactions |
-| `/api/admins/{id}` | `GET` | Get an admin by id |
-| `/api/admins/delete/{id}` | `GET` | delete admin by Id |
-| `/api/admins/approve/{id}` | `GET` | approve big withdrawals |
-
-### ***check out postman endpoints***: [Postman Collection](https://web.postman.co/workspace/My-Workspace~5b2bb1d9-e414-4bb4-84bc-e56548eeb511/collection/33712155-a43fad36-0aff-4b86-98a4-d9bab5480201?action=share&source=copy-link&creator=33712155&active-environment=2c67ea37-2bc1-4936-8c24-1e6df7a58416)
+### ***check out postman endpoints***: 
 - This collection includes all the endpoints which are there in the banking app.
 - Two endpoints are public and all the others are authenticated
 
