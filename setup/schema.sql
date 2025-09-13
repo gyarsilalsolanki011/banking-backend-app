@@ -1,4 +1,18 @@
 -- =========================
+-- CREATE DATABASE
+-- =========================
+CREATE DATABASE IF NOT EXISTS banking_db;
+USE banking_db;
+
+-- =========================
+-- DROP TABLES IF EXISTS (SAFE ORDER)
+-- =========================
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS admins;
+DROP TABLE IF EXISTS users;
+
+-- =========================
 -- USERS TABLE
 -- =========================
 CREATE TABLE users (
@@ -50,3 +64,4 @@ CREATE TABLE transactions (
     status VARCHAR(20) NOT NULL, -- Enum: SUCCESS, PENDING, FAILED
     CONSTRAINT fk_transaction_account FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
 );
+

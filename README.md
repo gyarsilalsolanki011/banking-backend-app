@@ -1,35 +1,61 @@
 # 🏦 Banking App (Spring Boot) REST API
 This is a banking application built using Spring Boot and MySQL that provides functionalities for user and account management, transactions, and admin role-based access control.
 
-## 🚀 Features
+## ✨ Features
+- 👤 **User Management** – Create, view, and delete users with JWT authentication
+- 🏦 **Account Management** – Manage accounts (create, view, delete)
+- 💰 **Transactions** – Deposit, withdraw, transfer funds, and view history
+- 🛡 **Admin Control** – Role-based access (ADMIN, MANAGER, SUPER_ADMIN) to manage users, accounts, and transactions
+- 🔐 **Security** – Spring Security, JWT authentication, and password encryption
+- 📄 **API Documentation** – Interactive Swagger/OpenAPI docs
 
-### 🔹 User Management
-- ✅ **Create new user** (JWT Authentication)
-- ✅ **View User Details** (Balance, Account Number, Type)
-- ✅ **Delete Users**
-- ✅ **Get all accounts** of users
+## 🔗 API Endpoints
 
-### 🔹 Account Management
-- ✅ **Creats Accounts**
-- ✅ **Retrieve account details**
-- ✅ **Delete Accounts**
+#### 🌍 Public Collections
+| **Method** | **Endpoint**                       | **Description**                                           |
+|------------|------------------------------------|-----------------------------------------------------------|
+| **POST**   | `/api/auth/register-admin`         | Register a new admin account.                             |
+| **POST**   | `/api/auth/register-user`          | Register a new user account.                              |
+| **POST**   | `/api/auth/request-online-banking` | Request online banking access for a user.                 |
+| **POST**   | `/api/auth/login`                  | Authenticate and retrieve JWT token for further requests. |
+| **POST**   | `/api/auth/message-service`        | Send notification/message service (if applicable).        |
 
-### 🔹 Transaction Management
-- ✅ **Deposit & Withdraw Money**
-- ✅ **Transfer Funds** between accounts
-- ✅ **View Transaction History**
+#### 👤 User Collection
+| **Method** | **Endpoint**                            | **Description**                            |
+|------------|-----------------------------------------|--------------------------------------------|
+| **PUT**    | `/api/users/update/{id}`                | Update user details by ID.                 |
+| **DELETE** | `/api/users/delete/{id}`                | Delete a user account permanently.         |
+| **GET**    | `/api/users/{id}`                       | Get user details by ID.                    |
+| **GET**    | `/api/users/online-banking-status/{id}` | Check online banking activation status.    |
+| **GET**    | `/api/users/all-accounts/{id}`          | Retrieve all accounts belonging to a user. |
 
-### 🔹 Admin Features
-- ✅ **Manage all Users & Accounts**
-- ✅ **Approve or Monitor Transactions**
-- ✅ **View All Users & Their Balances**
+#### 🏦 Account Collection
+| Method     | Endpoint               | Description               |
+|------------|------------------------|---------------------------|
+| **POST**   | `/api/accounts/create` | Create a new account      |
+| **GET**    | `/api/accounts/{id}`   | Get account details by ID |
+| **DELETE** | `/api/accounts/{id}`   | Delete an account         |
 
-### 🔹 Security & Tech Stack
-- ✅ **Dto's and Mappers** to secure schema
-- ✅ **Spring Boot with MySQL** for Backend
-- ✅ **Spring Security & JWT** for Authentication
-- ✅ **Lombok & JPA (Hibernate)** for Database Management
-- ✅ **Role-Based Access Control (ADMIN, MANAGER, SUPER_ADMIN)**
+#### 💰 Transaction Collection
+| **Method** | **Endpoint**                                 | **Description**                                      |
+|------------|----------------------------------------------|------------------------------------------------------|
+| **POST**   | `/api/transactions/deposit/{accountId}`      | Deposit funds into an account.                       |
+| **POST**   | `/api/transactions/withdraw/{accountId}`     | Withdraw funds from an account.                      |
+| **POST**   | `/api/transactions/transfer/{fromId}/{toId}` | Transfer funds between two accounts.                 |
+| **GET**    | `/api/transactions/account/{accountId}`      | Retrieve transaction history for a specific account. |
+
+#### 🛠 Admin Collection
+| **Method** | **Endpoint**                                     | **Description**                               |
+|------------|--------------------------------------------------|-----------------------------------------------|
+| **POST**   | `/api/admins/create`                             | Creates a new admin user.                     |
+| **PUT**    | `/api/admins/update/{id}`                        | Updates details of an existing admin by ID.   |
+| **DELETE** | `/api/admins/delete/{id}`                        | Deletes an admin by ID (irreversible).        |
+| **GET**    | `/api/admins/{id}`                               | Fetches details of a specific admin by ID.    |
+| **POST**   | `/api/admins/approve-withdrawal/{transactionId}` | Approves high-value withdrawal transactions.  |
+| **POST**   | `/api/admins/approve-online-banking/{userId}`    | Activates online banking access for a user.   |
+| **POST**   | `/api/admins/deactivate-online-banking/{userId}` | Deactivates online banking access for a user. |
+| **GET**    | `/api/admins/all-users`                          | Retrieves a list of all registered users.     |
+| **GET**    | `/api/admins/all-accounts`                       | Retrieves all bank accounts across users.     |
 
 
 ## 🛠️ Tech Stack
@@ -67,47 +93,18 @@ spring.jpa.hibernate.ddl-auto=update
 mvn clean install
 mvn spring-boot:run
 ```
+### 4️⃣ Access the Application
+- The application will be running at: `http://localhost:8080`
+- Swagger API docs: `http://localhost:8080/swagger-ui.html`
 
----
-
-## 🔗 API Endpoints
-
-| Method               | Endpoint                                 | Description                                                   |
-| -------------------- | ---------------------------------------- | ------------------------------------------------------------- |
-| **Public APIs**      |                                          |                                                               |
-| `POST`               | `/api/auth/register`                     | Register a new admin                                          |
-| `POST`               | `/api/auth/login`                        | Admin login & get JWT token                                   |
-| **User APIs**        |                                          |                                                               |
-| `POST`               | `/api/users`                             | Create a new user                                             |
-| `GET`                | `/api/users/{id}`                        | Get user details by ID                                        |
-| `DELETE`             | `/api/users/{id}`                        | Delete a user                                                 |
-| `GET`                | `/api/users/{id}/accounts`               | Get all accounts by userId                                    |
-| **Account APIs**     |                                          |                                                               |
-| `POST`               | `/api/accounts`                          | Create a new account                                          |
-| `GET`                | `/api/accounts/{id}`                     | Get account details by ID                                     |
-| `DELETE`             | `/api/accounts/{id}`                     | Delete an account                                             |
-| **Transaction APIs** |                                          |                                                               |
-| `POST`               | `/api/transactions/deposit/{accountId}`  | Deposit money into account                                    |
-| `POST`               | `/api/transactions/withdraw/{accountId}` | Withdraw money from account                                   |
-| `POST`               | `/api/transactions/transfer`             | Transfer funds between accounts (sourceId & targetId in body) |
-| `GET`                | `/api/transactions/account/{accountId}`  | Get all transactions by accountId                             |
-| **Admin APIs**       |                                          |                                                               |
-| `GET`                | `/api/admins/users`                      | Get all users                                                 |
-| `GET`                | `/api/admins/accounts`                   | Get all accounts                                              |
-| `GET`                | `/api/admins/transactions`               | Get all transactions                                          |
-| `GET`                | `/api/admins/{id}`                       | Get admin details by ID                                       |
-| `DELETE`             | `/api/admins/{id}`                       | Delete admin by ID                                            |
-| `PUT`                | `/api/admins/approve/{transactionId}`    | Approve big withdrawals                                       |
-
-
-### ***check out postman endpoints***: 
-- This collection includes all the endpoints which are there in the banking app.
-- Two endpoints are public and all the others are authenticated
-
-## Role-Based Access Control
-- ADMIN: Full access to all functionalities.
-- MANAGER: Can view and manage users and transactions.
-- SUPER_ADMIN: Highest privileges with full control over the system.
+### Setup Postman Collection
+- Download the Postman Collections from setup 
+- Import all collections into Postman and execute each API's requests.
+  - [`Account Collection.postman_collection.json`](/setup/Account%20Collection.postman_collection.json)
+  - [`Admin Collection.postman_collection.json`](/setup/Admin%20Collection.postman_collection.json)
+  - [`Auth Collection.postman_collection.json`](/setup/Auth%20Collection.postman_collection.json)
+  - [`Transaction Collection.postman_collection.json`](/setup/Transaction%20Collection.postman_collection.json)
+  - [`User Collection.postman_collection.json`](/setup/User%20Collection.postman_collection.json)
 
 ## 🤝 Contributing
 Contributions are welcome! Follow these steps:
@@ -118,7 +115,7 @@ Contributions are welcome! Follow these steps:
 
 
 ## 📜 License
-This project is **open-source** under the MIT License.
+This project is **open-source** under the [MIT License](LICENSE.md).
 
 
 ## 📞 Contact
