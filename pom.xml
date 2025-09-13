@@ -4,22 +4,22 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- Spring Boot Parent handles dependency versions & plugin mgmt -->
+	<!-- Spring Boot parent to manage versions -->
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.4.3</version>
-		<relativePath/> <!-- Always fetch from repository -->
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.gyarsilalsolanki011</groupId>
 	<artifactId>banking-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Banking App</name>
-	<description>A simple banking app demonstrating Hibernate, JPA, and Spring Security with JWT.</description>
+	<description>A secure Spring Boot banking application demonstrating Hibernate, Security, and JWT authentication.</description>
 	<url>https://github.com/gyarsilalsolanki011/banking-app</url>
 
-	<!-- Licensing (recommended for open-source) -->
+	<!-- License Information -->
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -28,38 +28,81 @@
 		</license>
 	</licenses>
 
-	<!-- Developer Info (good for project metadata) -->
+	<!-- Developer Information -->
 	<developers>
 		<developer>
 			<id>gyarsilalsolanki011</id>
 			<name>Gyarsilal Solanki</name>
 			<email>gyarsilalsolanki011@gmail.com</email>
+			<url>https://github.com/gyarsilalsolanki011</url>
 			<roles>
-				<role>Developer</role>
+				<role>Lead Developer</role>
 			</roles>
 		</developer>
 	</developers>
 
+	<!-- Source Code Management (Optional but good practice) -->
+	<scm>
+		<connection>scm:git:https://github.com/gyarsilalsolanki011/banking-app.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:gyarsilalsolanki011/banking-app.git</developerConnection>
+		<url>https://github.com/gyarsilalsolanki011/banking-app</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<!-- Build Properties -->
 	<properties>
 		<java.version>17</java.version>
-		<!-- Ensure reproducible builds -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<lombok.version>1.18.36</lombok.version>
+		<jjwt.version>0.12.5</jjwt.version>
 	</properties>
 
+	<!-- Dependencies -->
 	<dependencies>
-		<!-- Core Starters -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<!-- Lombok (for @Getter, @Setter, @Builder, etc.) -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- JWT (JSON Web Tokens for Authentication) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jjwt.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>${jjwt.version}</version>
 		</dependency>
 
 		<!-- Database Driver -->
@@ -67,31 +110,6 @@
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
-		</dependency>
-
-		<!-- Lombok -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional> <!-- Best practice for Lombok -->
-		</dependency>
-
-		<!-- JWT (API + Implementation + Jackson) -->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
-			<version>0.12.5</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>0.12.5</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>0.12.5</version>
 		</dependency>
 
 		<!-- Testing -->
@@ -102,48 +120,60 @@
 		</dependency>
 	</dependencies>
 
+	<!-- Build & Plugins -->
 	<build>
 		<finalName>spring-boot-banking-app</finalName>
 		<plugins>
-			<!-- Spring Boot Plugin (handles packaging & run tasks) -->
+
+			<!-- JUnit 5 Test Runner -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
+			</plugin>
+
+			<!-- Spring Boot Plugin with build-info execution -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
-			<!-- Compiler Plugin for Java 17 + Lombok annotation processing -->
+			<!-- OWASP Dependency Security Scan -->
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>9.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Compiler plugin for Lombok annotation processing -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.36</version>
+							<version>${lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-	<!-- Profiles for Environment Specific Configurations -->
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<properties>
-				<spring.profiles.active>dev</spring.profiles.active>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<spring.profiles.active>prod</spring.profiles.active>
-			</properties>
-		</profile>
-	</profiles>
 
 </project>
