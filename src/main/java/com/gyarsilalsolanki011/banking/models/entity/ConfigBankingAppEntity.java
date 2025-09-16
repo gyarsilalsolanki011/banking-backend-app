@@ -1,4 +1,4 @@
-package com.gyarsilalsolanki011.banking.entity;
+package com.gyarsilalsolanki011.banking.models.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

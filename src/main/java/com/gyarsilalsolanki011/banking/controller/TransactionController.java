@@ -1,10 +1,10 @@
 package com.gyarsilalsolanki011.banking.controller;
 
-import com.gyarsilalsolanki011.banking.dto.AccountDto;
-import com.gyarsilalsolanki011.banking.dto.TransactionDto;
-import com.gyarsilalsolanki011.banking.entity.User;
-import com.gyarsilalsolanki011.banking.enums.AccountType;
-import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
+import com.gyarsilalsolanki011.banking.models.dto.AccountDto;
+import com.gyarsilalsolanki011.banking.models.dto.TransactionDto;
+import com.gyarsilalsolanki011.banking.models.entity.User;
+import com.gyarsilalsolanki011.banking.models.enums.AccountType;
+import com.gyarsilalsolanki011.banking.models.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.AccountService;
 import com.gyarsilalsolanki011.banking.service.TransactionService;

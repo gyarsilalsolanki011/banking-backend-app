@@ -1,10 +1,10 @@
 package com.gyarsilalsolanki011.banking.controller;
 
-import com.gyarsilalsolanki011.banking.dto.AccountDto;
-import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.entity.User;
+import com.gyarsilalsolanki011.banking.models.dto.AccountDto;
+import com.gyarsilalsolanki011.banking.models.dto.UserDto;
+import com.gyarsilalsolanki011.banking.models.entity.User;
 import com.gyarsilalsolanki011.banking.mapper.UserMapper;
-import com.gyarsilalsolanki011.banking.models.StringResponse;
+import com.gyarsilalsolanki011.banking.models.dto.StringResponse;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.AccountService;
 import com.gyarsilalsolanki011.banking.service.UserService;

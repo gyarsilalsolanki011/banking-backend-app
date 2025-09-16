@@ -1,7 +1,7 @@
 package com.gyarsilalsolanki011.banking.mapper;
 
-import com.gyarsilalsolanki011.banking.dto.AccountDto;
-import com.gyarsilalsolanki011.banking.entity.Account;
+import com.gyarsilalsolanki011.banking.models.dto.AccountDto;
+import com.gyarsilalsolanki011.banking.models.entity.Account;
 
 public class AccountMapper {
     public static AccountDto mapToAccountDto(Account account){

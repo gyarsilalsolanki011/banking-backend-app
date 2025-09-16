@@ -1,6 +1,6 @@
-package com.gyarsilalsolanki011.banking.entity;
+package com.gyarsilalsolanki011.banking.models.entity;
 
-import com.gyarsilalsolanki011.banking.enums.AdminRole;
+import com.gyarsilalsolanki011.banking.models.enums.AdminRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

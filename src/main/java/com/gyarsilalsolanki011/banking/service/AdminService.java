@@ -1,7 +1,7 @@
 package com.gyarsilalsolanki011.banking.service;
 
-import com.gyarsilalsolanki011.banking.dto.AdminDto;
-import com.gyarsilalsolanki011.banking.enums.AdminRole;
+import com.gyarsilalsolanki011.banking.models.dto.AdminDto;
+import com.gyarsilalsolanki011.banking.models.enums.AdminRole;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
-package com.gyarsilalsolanki011.banking.seviceimpl;
+package com.gyarsilalsolanki011.banking.service.implementation;
 
-import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.entity.Account;
-import com.gyarsilalsolanki011.banking.entity.User;
-import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
+import com.gyarsilalsolanki011.banking.models.dto.UserDto;
+import com.gyarsilalsolanki011.banking.models.entity.Account;
+import com.gyarsilalsolanki011.banking.models.entity.User;
+import com.gyarsilalsolanki011.banking.models.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.mapper.UserMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;

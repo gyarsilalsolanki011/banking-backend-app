@@ -1,14 +1,14 @@
-package com.gyarsilalsolanki011.banking.seviceimpl;
+package com.gyarsilalsolanki011.banking.service.implementation;
 
-import com.gyarsilalsolanki011.banking.dto.AdminDto;
-import com.gyarsilalsolanki011.banking.entity.Account;
-import com.gyarsilalsolanki011.banking.entity.Admin;
-import com.gyarsilalsolanki011.banking.entity.Transaction;
-import com.gyarsilalsolanki011.banking.entity.User;
-import com.gyarsilalsolanki011.banking.enums.AdminRole;
-import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
-import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
-import com.gyarsilalsolanki011.banking.enums.TransactionType;
+import com.gyarsilalsolanki011.banking.models.dto.AdminDto;
+import com.gyarsilalsolanki011.banking.models.entity.Account;
+import com.gyarsilalsolanki011.banking.models.entity.Admin;
+import com.gyarsilalsolanki011.banking.models.entity.Transaction;
+import com.gyarsilalsolanki011.banking.models.entity.User;
+import com.gyarsilalsolanki011.banking.models.enums.AdminRole;
+import com.gyarsilalsolanki011.banking.models.enums.OnlineBankingStatus;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionStatus;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionType;
 import com.gyarsilalsolanki011.banking.mapper.AdminMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;

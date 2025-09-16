@@ -1,6 +1,6 @@
 package com.gyarsilalsolanki011.banking.service;
 
-import com.gyarsilalsolanki011.banking.dto.TransactionDto;
+import com.gyarsilalsolanki011.banking.models.dto.TransactionDto;
 
 import java.util.List;
 

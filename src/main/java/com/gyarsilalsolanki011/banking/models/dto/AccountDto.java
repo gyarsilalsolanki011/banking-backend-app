@@ -1,6 +1,6 @@
-package com.gyarsilalsolanki011.banking.dto;
+package com.gyarsilalsolanki011.banking.models.dto;
 
-import com.gyarsilalsolanki011.banking.enums.AccountType;
+import com.gyarsilalsolanki011.banking.models.enums.AccountType;
 import lombok.*;
 
 @Data

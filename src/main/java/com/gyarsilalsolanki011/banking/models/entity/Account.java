@@ -1,6 +1,6 @@
-package com.gyarsilalsolanki011.banking.entity;
+package com.gyarsilalsolanki011.banking.models.entity;
 
-import com.gyarsilalsolanki011.banking.enums.AccountType;
+import com.gyarsilalsolanki011.banking.models.enums.AccountType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

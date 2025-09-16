@@ -1,11 +1,10 @@
-package com.gyarsilalsolanki011.banking.entity;
+package com.gyarsilalsolanki011.banking.models.entity;
 
-import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
-import com.gyarsilalsolanki011.banking.enums.TransactionType;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionStatus;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 @Getter
 @Setter

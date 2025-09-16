@@ -1,8 +1,7 @@
 package com.gyarsilalsolanki011.banking.service;
 
-import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.entity.User;
-import com.gyarsilalsolanki011.banking.enums.OnlineBankingStatus;
+import com.gyarsilalsolanki011.banking.models.dto.UserDto;
+import com.gyarsilalsolanki011.banking.models.entity.User;
 
 import java.util.List;
 

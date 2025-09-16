@@ -1,17 +1,15 @@
 package com.gyarsilalsolanki011.banking.cache;
 
-import com.gyarsilalsolanki011.banking.entity.ConfigBankingAppEntity;
+import com.gyarsilalsolanki011.banking.models.entity.ConfigBankingAppEntity;
 import com.gyarsilalsolanki011.banking.repository.ConfigBankingAppRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 @Component
 @Slf4j

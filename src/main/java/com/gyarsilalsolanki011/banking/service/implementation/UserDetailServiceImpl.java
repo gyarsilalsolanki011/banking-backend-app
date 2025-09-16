@@ -1,7 +1,7 @@
-package com.gyarsilalsolanki011.banking.seviceimpl;
+package com.gyarsilalsolanki011.banking.service.implementation;
 
-import com.gyarsilalsolanki011.banking.entity.Admin;
-import com.gyarsilalsolanki011.banking.entity.User;
+import com.gyarsilalsolanki011.banking.models.entity.Admin;
+import com.gyarsilalsolanki011.banking.models.entity.User;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.UserDetailService;

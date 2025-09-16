@@ -1,4 +1,4 @@
-package com.gyarsilalsolanki011.banking.models;
+package com.gyarsilalsolanki011.banking.models.dto;
 
 import lombok.Data;
 

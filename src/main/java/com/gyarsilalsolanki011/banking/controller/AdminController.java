@@ -1,15 +1,14 @@
 package com.gyarsilalsolanki011.banking.controller;
 
-import com.gyarsilalsolanki011.banking.dto.AccountDto;
-import com.gyarsilalsolanki011.banking.dto.AdminDto;
-import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.enums.AdminRole;
+import com.gyarsilalsolanki011.banking.models.dto.AccountDto;
+import com.gyarsilalsolanki011.banking.models.dto.AdminDto;
+import com.gyarsilalsolanki011.banking.models.dto.UserDto;
+import com.gyarsilalsolanki011.banking.models.enums.AdminRole;
 import com.gyarsilalsolanki011.banking.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

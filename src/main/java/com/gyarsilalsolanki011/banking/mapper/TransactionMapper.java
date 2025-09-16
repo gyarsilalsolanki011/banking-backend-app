@@ -1,9 +1,7 @@
 package com.gyarsilalsolanki011.banking.mapper;
 
-import com.gyarsilalsolanki011.banking.dto.TransactionDto;
-import com.gyarsilalsolanki011.banking.entity.Transaction;
-import com.gyarsilalsolanki011.banking.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.gyarsilalsolanki011.banking.models.dto.TransactionDto;
+import com.gyarsilalsolanki011.banking.models.entity.Transaction;
 
 public class TransactionMapper {
     public static TransactionDto mapToTransactionDto(Transaction transaction) {

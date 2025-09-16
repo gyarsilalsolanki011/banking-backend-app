@@ -1,7 +1,7 @@
-package com.gyarsilalsolanki011.banking.dto;
+package com.gyarsilalsolanki011.banking.models.dto;
 
-import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
-import com.gyarsilalsolanki011.banking.enums.TransactionType;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionStatus;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionType;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.gyarsilalsolanki011.banking.mapper;
 
-import com.gyarsilalsolanki011.banking.dto.UserDto;
-import com.gyarsilalsolanki011.banking.entity.User;
+import com.gyarsilalsolanki011.banking.models.dto.UserDto;
+import com.gyarsilalsolanki011.banking.models.entity.User;
 
 public class UserMapper {
     public static UserDto mapToUserDto(User user) {

@@ -1,10 +1,10 @@
-package com.gyarsilalsolanki011.banking.seviceimpl;
+package com.gyarsilalsolanki011.banking.service.implementation;
 
-import com.gyarsilalsolanki011.banking.dto.TransactionDto;
-import com.gyarsilalsolanki011.banking.entity.Account;
-import com.gyarsilalsolanki011.banking.entity.Transaction;
-import com.gyarsilalsolanki011.banking.enums.TransactionStatus;
-import com.gyarsilalsolanki011.banking.enums.TransactionType;
+import com.gyarsilalsolanki011.banking.models.dto.TransactionDto;
+import com.gyarsilalsolanki011.banking.models.entity.Account;
+import com.gyarsilalsolanki011.banking.models.entity.Transaction;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionStatus;
+import com.gyarsilalsolanki011.banking.models.enums.TransactionType;
 import com.gyarsilalsolanki011.banking.mapper.TransactionMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.TransactionRepository;

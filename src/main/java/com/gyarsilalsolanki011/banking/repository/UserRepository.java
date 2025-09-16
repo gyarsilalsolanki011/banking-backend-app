@@ -1,6 +1,6 @@
 package com.gyarsilalsolanki011.banking.repository;
 
-import com.gyarsilalsolanki011.banking.entity.User;
+import com.gyarsilalsolanki011.banking.models.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
