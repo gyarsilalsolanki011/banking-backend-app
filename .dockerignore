@@ -1,0 +1,29 @@
+# Ignore VCS & IDE
+.git
+.gitignore
+.idea
+.vscode
+
+# Ignore Local Build Artifacts
+build/
+target/
+
+# Ignore Temp & Logs
+*.log
+logs/
+
+
+# Ignore Secrets & Env Files
+.env
+application-*.yml
+application-*.properties
+
+# Ignore OS Junk
+.DS_Store
+Thumbs.db
+
+# Keep what we need
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+!mvnw
+!mvnw.cmd
