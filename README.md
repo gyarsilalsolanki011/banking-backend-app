@@ -8,6 +8,7 @@ This is a banking application built using Spring Boot and MySQL that provides fu
 - 🛡 **Admin Control** – Role-based access (ADMIN, MANAGER, SUPER_ADMIN) to manage users, accounts, and transactions
 - 🔐 **Security** – Spring Security, JWT authentication, and password encryption
 - 📄 **API Documentation** – Interactive Swagger/OpenAPI docs
+- 🐳 **dockerized application** - Easily deployable with Docker
 
 ## 🔗 API Endpoints
 
@@ -105,6 +106,42 @@ mvn spring-boot:run
   - [`Auth Collection.postman_collection.json`](/setup/Auth%20Collection.postman_collection.json)
   - [`Transaction Collection.postman_collection.json`](/setup/Transaction%20Collection.postman_collection.json)
   - [`User Collection.postman_collection.json`](/setup/User%20Collection.postman_collection.json)
+
+## 🚀 Running the App with Docker
+```bash
+# 1️⃣ Build and start containers
+docker-compose up -d --build
+
+# 2️⃣ Check logs
+docker-compose logs -f
+
+# 3️⃣ Stop and remove containers
+docker-compose down
+```
+### `NOTE`: Make sure to add .env file in docker folder with following content:
+```env
+# MySQL Database Configuration
+MYSQL_ROOT_PASSWORD=your_root_password
+MYSQL_DATABASE=your_database_name
+MYSQL_USER=your_user
+MYSQL_PASSWORD=your_password
+HOST_MYSQL_PORT=3307
+
+# Spring Boot Database Config
+DATABASE_URL=jdbc:mysql://mysql-banking:3306/${MYSQL_DATABASE}
+DATABASE_USERNAME=${MYSQL_USER}
+DATABASE_PASSWORD=${MYSQL_PASSWORD}
+
+# JWT Configuration
+JWT_SECRET_KEY=your_jwt_secret_key
+JWT_EXPIRATION_TIME=86400000
+SMS_API_KEY=your_sms_api_key
+
+# Volume Paths
+MYSQL_DATA_PATH=/absolute/path/to/mysql-data
+```
+**Also visit docker images**:[`gyarsilalsolanki011/banking-backend-app`](https://hub.docker.com/r/gyarsilalsolanki011/banking-backend-app)
+
 
 ## 🤝 Contributing
 Contributions are welcome! Follow these steps:

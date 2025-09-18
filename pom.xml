@@ -13,7 +13,7 @@
 	</parent>
 
 	<groupId>com.gyarsilalsolanki011</groupId>
-	<artifactId>banking-app</artifactId>
+	<artifactId>banking-backend-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Banking App</name>
 	<description>A secure Spring Boot banking application demonstrating Hibernate, Security, and JWT authentication.</description>

@@ -1,6 +1,6 @@
 # Ignore VCS & IDE
 .git
-.gitignore
+../.gitignore
 .idea
 .vscode
 
@@ -14,8 +14,9 @@ logs/
 
 
 # Ignore Secrets & Env Files
-.env
-application-*.yml
+docker/.env
+!application-prod.yml
+!application-dev.yml
 application-*.properties
 
 # Ignore OS Junk

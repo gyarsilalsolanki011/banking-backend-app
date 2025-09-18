@@ -1,6 +1,6 @@
 spring:
   application:
-    name: banking-app
+    name: banking-backend-app
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}

@@ -27,7 +27,9 @@ FROM openjdk:17-jdk-slim AS runtime
 WORKDIR /app
 
 # Copy jar from build stage
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/spring-boot-banking-app.jar app.jar
+COPY docker/wait-for.sh wait-for.sh
+RUN chmod +x wait-for.sh
 
 # Expose port
 EXPOSE 8080
