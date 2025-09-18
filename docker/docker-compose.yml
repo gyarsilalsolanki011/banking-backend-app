@@ -13,7 +13,7 @@ services:
       - banking-network
 
   banking-backend-app:
-    image: gyarsilalsolanki011/banking-backend-app:0.0.4
+    image: gyarsilalsolanki011/banking-backend-app:1.0.0
     container_name: banking-backend-app
     env_file: .env
     ports:

@@ -1,17 +1,16 @@
 package com.gyarsilalsolanki011.banking.service.implementation;
 
+import com.gyarsilalsolanki011.banking.mapper.UserMapper;
 import com.gyarsilalsolanki011.banking.models.dto.UserDto;
 import com.gyarsilalsolanki011.banking.models.entity.Account;
 import com.gyarsilalsolanki011.banking.models.entity.User;
 import com.gyarsilalsolanki011.banking.models.enums.OnlineBankingStatus;
-import com.gyarsilalsolanki011.banking.mapper.UserMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.UserService;
+import com.gyarsilalsolanki011.banking.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +24,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserDto createUser(String name, String email, String phone, String address) {
@@ -117,7 +114,7 @@ public class UserServiceImpl implements UserService {
             return "User not found!";
         }
         User user = optionalUser.get();
-        user.setBankingPassword(passwordEncoder.encode(password));
+        user.setBankingPassword(PasswordUtil.encode(password));
         userRepository.save(user);
         return "Password recovered successfully !";
     }
@@ -135,7 +132,7 @@ public class UserServiceImpl implements UserService {
             return "Online Banking is already activated!";
         }
 
-        user.setBankingPassword(passwordEncoder.encode(bankingPassword));
+        user.setBankingPassword(PasswordUtil.encode(bankingPassword));
         user.setOnlineBankingStatus(OnlineBankingStatus.PENDING_FOR_ACTIVATION);
         userRepository.save(user);
 

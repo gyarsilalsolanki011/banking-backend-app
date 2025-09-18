@@ -1,5 +1,6 @@
 package com.gyarsilalsolanki011.banking.service.implementation;
 
+import com.gyarsilalsolanki011.banking.mapper.AdminMapper;
 import com.gyarsilalsolanki011.banking.models.dto.AdminDto;
 import com.gyarsilalsolanki011.banking.models.entity.Account;
 import com.gyarsilalsolanki011.banking.models.entity.Admin;
@@ -9,15 +10,13 @@ import com.gyarsilalsolanki011.banking.models.enums.AdminRole;
 import com.gyarsilalsolanki011.banking.models.enums.OnlineBankingStatus;
 import com.gyarsilalsolanki011.banking.models.enums.TransactionStatus;
 import com.gyarsilalsolanki011.banking.models.enums.TransactionType;
-import com.gyarsilalsolanki011.banking.mapper.AdminMapper;
 import com.gyarsilalsolanki011.banking.repository.AccountRepository;
 import com.gyarsilalsolanki011.banking.repository.AdminRepository;
 import com.gyarsilalsolanki011.banking.repository.TransactionRepository;
 import com.gyarsilalsolanki011.banking.repository.UserRepository;
 import com.gyarsilalsolanki011.banking.service.AdminService;
+import com.gyarsilalsolanki011.banking.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,14 +33,13 @@ public class AdminServiceImpl implements AdminService {
     private AccountRepository accountRepository;
     @Autowired
     private UserRepository userRepository;
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public AdminDto createAdmin(String username, String email, String password, AdminRole role) {
         Admin admin = new Admin(
                 username,
                 email,
-                passwordEncoder.encode(password),
+                PasswordUtil.encode(password),
                 role
         );
         adminRepository.save(admin);
@@ -134,7 +132,7 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = optionalUser.get();
         if (username != null && !username.isBlank()) admin.setUsername(username);
         if (email != null && !email.isBlank()) admin.setEmail(email);
-        if (password != null && !password.isBlank()) admin.setPassword(passwordEncoder.encode(password));
+        if (password != null && !password.isBlank()) admin.setPassword(PasswordUtil.encode(password));
         if (role != null) admin.setRole(role);
 
         adminRepository.save(admin);
