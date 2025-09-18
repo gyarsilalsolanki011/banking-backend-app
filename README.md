@@ -101,11 +101,11 @@ mvn spring-boot:run
 ### Setup Postman Collection
 - Download the Postman Collections from setup 
 - Import all collections into Postman and execute each API's requests.
-  - [`Account Collection.postman_collection.json`](src/main/resources/setup/Account%20Collection.postman_collection.json)
-  - [`Admin Collection.postman_collection.json`](src/main/resources/setup/Admin%20Collection.postman_collection.json)
-  - [`Auth Collection.postman_collection.json`](src/main/resources/setup/Auth%20Collection.postman_collection.json)
-  - [`Transaction Collection.postman_collection.json`](src/main/resources/setup/Transaction%20Collection.postman_collection.json)
-  - [`User Collection.postman_collection.json`](src/main/resources/setup/User%20Collection.postman_collection.json)
+  - [`Account Collection.postman_collection.json`](src/main/resources/setup/AccountCollection.postman_collection.json)
+  - [`Admin Collection.postman_collection.json`](src/main/resources/setup/AdminCollection.postman_collection.json)
+  - [`Auth Collection.postman_collection.json`](src/main/resources/setup/AuthCollection.postman_collection.json)
+  - [`Transaction Collection.postman_collection.json`](src/main/resources/setup/TransactionCollection.postman_collection.json)
+  - [`User Collection.postman_collection.json`](src/main/resources/setup/UserCollection.postman_collection.json)
 
 ## 🚀 Running the App with Docker
 ```bash
