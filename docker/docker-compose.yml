@@ -1,5 +1,5 @@
 services:
-  mysql:
+  mysql-banking:
     image: mysql:8.0
     container_name: mysql-banking
     restart: always
@@ -12,8 +12,8 @@ services:
     networks:
       - banking-network
 
-  banking-app:
-    image: gyarsilalsolanki011/banking-backend-app:0.0.3
+  banking-backend-app:
+    image: gyarsilalsolanki011/banking-backend-app:0.0.4
     container_name: banking-backend-app
     env_file: .env
     ports:
@@ -25,9 +25,10 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME}
     depends_on:
-      - mysql
+      - mysql-banking
     networks:
       - banking-network
+    restart: unless-stopped
 
 volumes:
   banking-backend-data:

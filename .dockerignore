@@ -16,7 +16,8 @@ logs/
 # Ignore Secrets & Env Files
 docker/.env
 !application-prod.yml
-!application-dev.yml
+!wait-for.sh
+application-*.yml
 application-*.properties
 
 # Ignore OS Junk

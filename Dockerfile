@@ -26,13 +26,18 @@ FROM openjdk:17-jdk-slim AS runtime
 # Set working directly
 WORKDIR /app
 
+# Install netcat fo wait-for script
+RUN apt-get update && apt-get install -y netcat && rm -rf /var/lib/apt/lists/*
+
+#  Add wait-for script to handle service dependencies
+COPY /docker/wait-for.sh /script/wait-for.sh
+RUN chmod +x /script/wait-for.sh
+
 # Copy jar from build stage
 COPY --from=build /app/target/spring-boot-banking-app.jar app.jar
-COPY docker/wait-for.sh wait-for.sh
-RUN chmod +x wait-for.sh
 
 # Expose port
 EXPOSE 8080
 
 # Run Jar file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["/script/wait-for.sh", "mysql-banking", "java", "-jar", "app.jar"]
