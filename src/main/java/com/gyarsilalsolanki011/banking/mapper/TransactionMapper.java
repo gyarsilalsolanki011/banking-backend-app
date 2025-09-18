@@ -11,7 +11,7 @@ public class TransactionMapper {
                 transaction.getToAccountNumber(),
                 transaction.getTransactionType(),
                 transaction.getAmount(),
-                transaction.getDate(),
+                transaction.getTransactionDate(),
                 transaction.getStatus(),
                 transaction.getAccount().getBalance()
         );

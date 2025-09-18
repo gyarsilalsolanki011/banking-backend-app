@@ -19,17 +19,17 @@ public class TransactionDto {
     private String toAccountNumber;
     private TransactionType transactionType;
     private Double amount;
-    private Date date;
+    private Date transaction_date;
     private TransactionStatus transactionStatus;
     private Double amountRemained;
 
-    public TransactionDto(Long transactionId, String accountNumber, String toAccountNumber, TransactionType transactionType, Double amount, Date date, TransactionStatus status, Double amountRemained) {
+    public TransactionDto(Long transactionId, String accountNumber, String toAccountNumber, TransactionType transactionType, Double amount, Date transaction_date, TransactionStatus status, Double amountRemained) {
         this.transactionId = transactionId;
         this.accountNumber = accountNumber;
         this.toAccountNumber = toAccountNumber;
         this.transactionType = transactionType;
         this.amount = amount;
-        this.date = date;
+        this.transaction_date = transaction_date;
         this.transactionStatus = status;
         this.amountRemained = amountRemained;
     }

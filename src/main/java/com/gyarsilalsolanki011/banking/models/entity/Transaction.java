@@ -32,8 +32,8 @@ public class Transaction {
     @Column(name = "amount")
     private Double amount;
 
-    @Column(name = "date")
-    private Date date = new Date();
+    @Column(name = "transaction_date")
+    private Date transactionDate = new Date();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

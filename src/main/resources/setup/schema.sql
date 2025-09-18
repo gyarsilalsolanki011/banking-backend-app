@@ -60,7 +60,7 @@ CREATE TABLE transactions (
     to_account_number VARCHAR(20) NOT NULL,
     transaction_type VARCHAR(20) NOT NULL, -- Enum: DEPOSIT, WITHDRAWAL, TRANSFER
     amount DECIMAL(15,2) NOT NULL,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     status VARCHAR(20) NOT NULL, -- Enum: SUCCESS, PENDING, FAILED
     CONSTRAINT fk_transaction_account FOREIGN KEY (account_id) REFERENCES accounts(account_id) ON DELETE CASCADE
 );
