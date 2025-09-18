@@ -103,7 +103,7 @@ mvn spring-boot:run
 - Import all collections into Postman and execute each API's requests.
   - [`Account Collection.postman_collection.json`](src/main/resources/setup/AccountCollection.postman_collection.json)
   - [`Admin Collection.postman_collection.json`](src/main/resources/setup/AdminCollection.postman_collection.json)
-  - [`Auth Collection.postman_collection.json`](src/main/resources/setup/AuthCollection.postman_collection.json)
+  - [`Auth Collection.postman_collection.json`](src/main/resources/setup/PublicCollection.postman_collection.json)
   - [`Transaction Collection.postman_collection.json`](src/main/resources/setup/TransactionCollection.postman_collection.json)
   - [`User Collection.postman_collection.json`](src/main/resources/setup/UserCollection.postman_collection.json)
 
