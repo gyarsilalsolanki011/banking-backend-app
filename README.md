@@ -9,6 +9,7 @@ This is a banking backend application built using Spring Boot and MySQL that pro
 - 🔐 **Security** – Spring Security, JWT authentication, and password encryption
 - 📄 **API Documentation** – Interactive Swagger/OpenAPI docs
 - 🐳 **dockerized application** - Easily deployable with Docker
+> Checkout dockerized image : [banking-backend-app](https://hub.docker.com/r/gyarsilalsolanki011/banking-backend-app)
 
 ## 🔗 API Endpoints
 
