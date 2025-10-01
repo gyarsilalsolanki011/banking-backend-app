@@ -1,5 +1,5 @@
-# 🏦 Banking App (Spring Boot) REST API
-This is a banking application built using Spring Boot and MySQL that provides functionalities for user and account management, transactions, and admin role-based access control.
+# 🏦 Banking Backend App(Spring Boot) REST API
+This is a banking backend application built using Spring Boot and MySQL that provides functionalities for user and account management, transactions, and admin role-based access control.
 
 ## ✨ Features
 - 👤 **User Management** – Create, view, and delete users with JWT authentication
